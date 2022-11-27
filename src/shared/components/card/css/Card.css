@@ -1,0 +1,19 @@
+.card {
+  padding: 10px;
+  background-color: #fffffe;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.class-header {
+  font-family: "Rock Salt", cursive;
+  padding: 20px;
+  font-style: italic;
+  color: #666;
+  letter-spacing: 1px;
+}
+
+.classBody{
+    overflow-x: auto;
+}

@@ -1,0 +1,11 @@
+.special-button > button {
+  color: #7b915f;
+  background-color: white;
+  border-color: #7b915f;
+}
+
+.special-button > button:hover {
+  color: white;
+  background-color: #7b915f;
+  border-color: white;
+}

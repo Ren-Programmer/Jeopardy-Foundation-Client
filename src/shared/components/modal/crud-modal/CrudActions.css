@@ -1,0 +1,9 @@
+.crud-buttons {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.crud-buttons > .reset {
+  margin-left: 15px;
+  margin-right: 5px;
+}

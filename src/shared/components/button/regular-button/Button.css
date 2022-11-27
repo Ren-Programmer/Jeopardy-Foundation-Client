@@ -1,0 +1,14 @@
+button {
+  font-size: 15px;
+  border-radius: 9px;
+  border-style: solid;
+  padding: 10px;
+  transition-duration: 0.5s;
+}
+
+button:hover {
+  font-size: 15px;
+  border-radius: 9px;
+  border-style: solid;
+  padding: 10px;
+}

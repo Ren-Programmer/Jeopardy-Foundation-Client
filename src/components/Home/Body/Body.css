@@ -1,0 +1,5 @@
+main {
+    grid-area: main;
+    position: relative;    
+    padding:50px
+  }

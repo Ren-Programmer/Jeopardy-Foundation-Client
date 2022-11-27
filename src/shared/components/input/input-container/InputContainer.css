@@ -1,0 +1,26 @@
+.input-container {
+  display: flex;
+  margin: 20px;
+  padding: 20px;
+  align-content: flex-start;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+.label-div {
+  font-weight: bold;
+  flex: 1 0 120px;
+  max-width: 220px;
+}
+
+.input-div {
+  flex-grow: 3;
+  flex: 1 0 220px;
+  /* margin-bottom: 15px; */
+}
+
+.input-error{
+    color: #f44336;
+    font-weight: bold;
+  }
+  

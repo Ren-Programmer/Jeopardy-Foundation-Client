@@ -1,0 +1,18 @@
+.card-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.card-header-title {
+  flex-grow: 1;
+  order: 1;
+  color: #eebbc3;
+}
+
+.card-header-options {
+  flex-grow: 4;
+  display: flex;
+  order: 2;
+  flex-direction: row-reverse;
+  
+}
