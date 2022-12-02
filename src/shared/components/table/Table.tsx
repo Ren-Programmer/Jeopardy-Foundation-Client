@@ -5,6 +5,7 @@ import Card from "../card/Card";
 import { ICardHeader } from "../card/card-header/CardHeader";
 import {
   Box,
+  Divider,
   Table as CTable,
   TableCaption,
   TableContainer,
@@ -22,9 +23,9 @@ export interface ITable {
   updateMethod: (id: string) => void;
   viewMethod: (id: string) => void;
   deleteMethod: (id: string) => void;
-  paginationProps:PaginationProps
-  baseParam:BaseSearchParams;
-  setBaseParam:React.Dispatch<React.SetStateAction<BaseSearchParams>>
+  paginationProps: PaginationProps;
+  baseParam: BaseSearchParams;
+  setBaseParam: React.Dispatch<React.SetStateAction<BaseSearchParams>>;
 }
 
 export default function Table({
@@ -37,32 +38,40 @@ export default function Table({
   deleteMethod,
   paginationProps,
   baseParam,
-  setBaseParam
+  setBaseParam,
 }: ITable) {
   return (
     <>
       <Card
         cardHeaderProps={cardHeaderProps}
         cardBodyProps={{
-          children: (
+          children: (        
             <>
-              <TableContainer>
-                <CTable colorScheme={"messenger"} variant={"striped"}>
-                  <TableCaption placement={"top"}>{caption}</TableCaption>
+              <TableContainer
+              height={"420px"}
+              overflowY="scroll"
+              >
+                <CTable              
+                size={"sm"}
+                colorScheme={"messenger"}
+                variant={"striped"}>
+                  {/* <TableCaption placement={"top"}>{caption}</TableCaption> */}
                   <TableHeader {...tableHeaderProps} />
+                  
+             
                   <TableBody
                     updateMethod={updateMethod}
                     viewMethod={viewMethod}
                     deleteMethod={deleteMethod}
                     tableHeaderProps={tableHeaderProps}
                     data={data}
-                  />
-                  <Tfoot mt={3}>
-                    <Tr></Tr>
-                  </Tfoot>
+                    />                
+                    
                 </CTable>
               </TableContainer>
-              <Box mt={2}>
+              
+              <Box mt={4}>
+              <Divider mb={2}></Divider>
                 <Pagination
                   // paginationProps={{
                   //   currentPage: 45,

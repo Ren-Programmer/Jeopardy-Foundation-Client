@@ -32,7 +32,7 @@ export default function Pagination({ paginationProps,baseParam,setBaseParam }: I
       <Flex alignContent={"center"} justifyContent={"center"}>
         <Box>
             Showing {(currentPage!-1)* pageSize! + 1} to  {(currentPage!-1)* pageSize! + pageSize!} of {totalCount} Items
-
+(Needs Work re Wording)
         </Box>
         <Spacer></Spacer>
         <PaginationButton

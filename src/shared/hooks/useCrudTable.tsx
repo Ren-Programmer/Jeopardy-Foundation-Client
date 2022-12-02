@@ -182,6 +182,8 @@ export default function useCrudTable({
             tableHeaderProps: {
               headers: headers,
               optionsStatus: "show",
+              baseParam:baseParams,
+              setBaseParam:setBaseParams
             },            
             paginationProps: pagination,
             updateMethod,

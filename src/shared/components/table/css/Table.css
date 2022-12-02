@@ -1,58 +1,9 @@
-table {
-  
-  width: 100%;
+.container {
+  height: 70px;
+  overflow-y: scroll;
+ }
+ .data, th, td {
+  border: 1px solid black;
   border-collapse: collapse;
-  
-}
-.table.div{
-  overflow-x: auto;
-}
-
-th,
-td {
-  padding: 10px;
-}
-
-thead th,
-tfoot th {
-  font-family: "Rock Salt", cursive;
-}
-
-th {
-  letter-spacing: 2px;
-}
-
-td {
-  letter-spacing: 1px;
-}
-
-tbody td {
-    text-align: center;
-  }
-  
-  tfoot th {
-    text-align: right;
-  }
-  thead{
-    border-bottom: 1px solid #eebbc3 ;
-  }
-  tbody tr:nth-child(odd) {
-    background-color: white;
-  }
-  
-  tbody tr:nth-child(even) {
-    background-color: rgb(240, 240, 240);
-  }
-  table {
-    
-  }
-  caption {
-    font-family: "Rock Salt", cursive;
-    padding: 20px;
-    font-style: italic;
-    caption-side: bottom;
-    color: #eebbc3;
-    text-align: right;
-    letter-spacing: 1px;
-  }
-  
+  padding: 4px;
+ }

@@ -1,17 +1,57 @@
-import { Thead,Tr, Th } from "@chakra-ui/react";
-import { Fragment } from "react";
+import { Thead, Tr, Th, Box, chakra } from "@chakra-ui/react";
+import { Fragment, useEffect, useState } from "react";
+import TableHead from "./TableHead";
+import { FaArrowDown, FaArrowUp } from "react-icons/fa";
+import { BaseSearchParams } from "api/interfaces";
 
 export interface ITableHeader {
   headers: IHeader[];
-  optionsStatus: "show"|"hide"
+  optionsStatus: "show" | "hide";
+  baseParam: BaseSearchParams;
+  setBaseParam: React.Dispatch<React.SetStateAction<BaseSearchParams>>;
 }
 export interface IHeader {
   name: string;
   displayName: string;
   order: number;
 }
+export interface IActiveHeader {
+  activeHeaderId?: number;
+  activeName?: string;
+  sortDirection?: "ascending" | "descending";
+}
 
-export default function TableHeader({ headers, optionsStatus }: ITableHeader) {
+export default function TableHeader({
+  headers,
+  optionsStatus,
+  baseParam,
+  setBaseParam,
+}: ITableHeader) {
+  const [activeHeader, setActiveHeader] = useState<IActiveHeader>(
+    {}
+    //   {
+    //   activeHeaderId: 1,
+    //   sortDirection: "descending",
+    // }
+  );
+
+  useEffect(() => {
+    const timeOutId = setTimeout(() => {
+      if (activeHeader.activeHeaderId) {
+        setBaseParam({
+          ...baseParam,
+          orderBy:
+            activeHeader.activeName === undefined
+              ? undefined
+              : `${activeHeader.activeName} ${
+                  activeHeader.sortDirection === "descending" ? "desc" : null
+                }`,
+        });
+      }
+    }, 1000);
+    return () => clearTimeout(timeOutId);
+  }, [activeHeader]);
+
   return (
     <Thead>
       <Tr>
@@ -20,13 +60,23 @@ export default function TableHeader({ headers, optionsStatus }: ITableHeader) {
           .map((x) => {
             return (
               <Fragment key={x.order}>
-                <Th scope="col">
-                  {x.displayName}
-                </Th>
+                <TableHead
+                  sortName={x.name}
+                  arrowDown={<FaArrowDown />}
+                  arrowUp={<FaArrowUp />}
+                  activeHeader={activeHeader}
+                  setActiveHeader={setActiveHeader}
+                  id={x.order}
+                  title={x.displayName}
+                />
               </Fragment>
             );
           })}
-          {optionsStatus === "show" && <Th scope="col">Options</Th>}
+        {/* {optionsStatus === "show" && (
+          <Th scope="col">
+            <Box>{"Options"}</Box>
+          </Th>
+        )} */}
       </Tr>
     </Thead>
   );

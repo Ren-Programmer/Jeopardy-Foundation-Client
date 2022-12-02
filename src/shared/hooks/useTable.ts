@@ -17,7 +17,7 @@ import { ICrudModal } from "shared/components/modal/crud-modal/CrudModal";
 import { PaginationProps } from "shared/components/pagination/Pagination";
 import { CrudTypes } from "shared/interfaces/crud";
 
-export interface IUseTable{
+export interface IUseTable {
   calls: IAgentGenericCalls;
   defaultValue: any;
   onMethod: (data: any) => Promise<AxiosResponse<any, any>>;
@@ -28,23 +28,24 @@ export default function useTable<Create extends FieldValues, Update, Delete>({
   defaultValue,
   onMethod,
 }: IUseTable) {
-  const [entity, setEntity] = useState(defaultValue)
+  const [entity, setEntity] = useState(defaultValue);
   const [type, setType] = useState<CrudTypes>(CrudTypes.Create);
-  const [itemsResponse, setItemsResponse] = useState<{items:[]; pagination:PaginationProps}>({
-    items:[],
-    pagination:{
-      currentPage:1,
-      pageSize:1,
-      totalCount:1,
-      totalPages:1      
-    }
+  const [itemsResponse, setItemsResponse] = useState<{
+    items: [];
+    pagination: PaginationProps;
+  }>({
+    items: [],
+    pagination: {
+      currentPage: 1,
+      pageSize: 1,
+      totalCount: 1,
+      totalPages: 1,
+    },
   });
   const [data, setData] = useState<any>();
   const [method, setMethod] = useState(() => onMethod);
   const [triggerReset, setTriggerReset] = useState(1);
-  const [baseParams, setBaseParams] = useState<BaseSearchParams>({  
-pageSize:1, pageNumber:4   
-  })
+  const [baseParams, setBaseParams] = useState<BaseSearchParams>({});
   const formHook = useForm({
     defaultValues: useMemo(() => {
       return entity;
@@ -74,13 +75,12 @@ pageSize:1, pageNumber:4
     },
     body: null,
   });
-  useEffect(() => {
+  useEffect(() => { 
     async function oo() {
       return await calls.Items(getSearchParams());
     }
     oo()
       .then((x) => {
-        
         setItemsResponse(x.data);
       })
       .catch((error) => console.log(error));
@@ -89,8 +89,8 @@ pageSize:1, pageNumber:4
     return await calls
       .Items(getSearchParams())
       .then((response) => {
-        console.log(response.data)
-        setItemsResponse(response.data.items);
+        console.log(response.data);
+        setItemsResponse(response.data);
       })
       .catch((error) => console.log(error));
   }
@@ -141,30 +141,32 @@ pageSize:1, pageNumber:4
   }
 
   const axiosMethod = async (data: any) => {
-    try {      
+    try {
       const response = await method(data).catch();
       getItems();
-      console.log(response,type)
-      switch(type){
-        case CrudTypes.Create:{
+      console.log(response, type);
+      switch (type) {
+        case CrudTypes.Create: {
           alert();
-          formHook.reset(entity)
+          formHook.reset(entity);
           break;
         }
-        case CrudTypes.Delete:{
+        case CrudTypes.Delete: {
           setCrudModalProps({
-            ...crudModalProps, modalProps:{...crudModalProps.modalProps, status:false}
-          })
+            ...crudModalProps,
+            modalProps: { ...crudModalProps.modalProps, status: false },
+          });
           break;
         }
-        case CrudTypes.Update :{
+        case CrudTypes.Update: {
           setCrudModalProps({
-            ...crudModalProps, modalProps:{...crudModalProps.modalProps, status:false}
-          })
+            ...crudModalProps,
+            modalProps: { ...crudModalProps.modalProps, status: false },
+          });
           break;
         }
       }
-      
+
       toast.success("Process Completed");
     } catch (error: any) {
       // if(!error.response){
@@ -191,13 +193,13 @@ pageSize:1, pageNumber:4
       }
     }
   };
-const getSearchParams = ()=>{
-  const params = new URLSearchParams();
-  Object.entries(baseParams).forEach(param=>{
-    params.append(param[0], param[1])
-  })
-  return params
-}
+  const getSearchParams = () => {
+    const params = new URLSearchParams();
+    Object.entries(baseParams).forEach((param) => {
+      if (param[1] !== undefined) params.append(param[0], param[1]);
+    });
+    return params;
+  };
   return {
     itemsResponse,
     getItems,
@@ -214,7 +216,7 @@ const getSearchParams = ()=>{
     entity,
     setEntity,
     setBaseParams,
-    baseParams
+    baseParams,
   };
 }
 // function useGenerateUseForm(

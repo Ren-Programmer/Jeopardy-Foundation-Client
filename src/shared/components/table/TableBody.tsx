@@ -22,7 +22,9 @@ export default function TableBody({
   const { headers, optionsStatus } = tableHeaderProps;
   return (
     <>
-      <Tbody>
+      <Tbody  
+       
+      >
         {data.length === 0 && (
           <>
             <Tr>
