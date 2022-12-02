@@ -1,3 +1,4 @@
+import { Tbody, Td, Th, Tr } from "@chakra-ui/react";
 import { Fragment, ReactElement } from "react";
 import { ListDTOCommon } from "shared/interfaces/dtos";
 import CrudOptions from "./crud-table/CrudOptions";
@@ -21,14 +22,14 @@ export default function TableBody({
   const { headers, optionsStatus } = tableHeaderProps;
   return (
     <>
-      <tbody>
+      <Tbody>
         {data.length === 0 && (
           <>
-            <tr>
-              <td id="no-data" colSpan={2}>
+            <Tr>
+              <Td colSpan={2}>
                 No Data is Present
-              </td>
-            </tr>
+              </Td>
+            </Tr>
           </>
         )}
         {data.length !== 0 && (
@@ -37,34 +38,34 @@ export default function TableBody({
               //if(optionsElement) optionsElement.props.id = item.id;
               return (
                 <Fragment key={item.id}>
-                  <tr>
+                  <Tr>
                     {headers
                       .sort((a, b) => a.order - b.order)
                       .map((header) => {
                         return (
                           <Fragment key={header.order}>
                             {header.order === 1 && (
-                              <th scope="row">{item[header.name]}</th>
+                              <Td fontWeight={"semibold"} scope="row">{item[header.name]}</Td>
                             )}
-                            {header.order !== 1 && <td>{item[header.name]}</td>}
+                            {header.order !== 1 && <Td>{item[header.name]}</Td>}
                           </Fragment>
                         );
                       })}
                     {optionsStatus === "show" && (
-                      <td>
+                      <Td>
                         <CrudOptions id={item.id} 
                         viewMethod={viewMethod}
                         deleteMethod={deleteMethod}
                         updateMethod={updateMethod} />
-                      </td>
+                      </Td>
                     )}
-                  </tr>
+                  </Tr>
                 </Fragment>
               );
             })}
           </>
         )}
-      </tbody>
+      </Tbody>
     </>
   );
 }

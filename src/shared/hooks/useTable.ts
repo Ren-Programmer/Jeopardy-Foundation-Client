@@ -1,4 +1,6 @@
+import { useDisclosure } from "@chakra-ui/react";
 import IAgentGenericCalls, {
+  BaseSearchParams,
   ServerErrorResult,
   ServerResponse,
 } from "api/interfaces";
@@ -12,6 +14,7 @@ import {
 } from "react-hook-form";
 import { toast } from "react-toastify";
 import { ICrudModal } from "shared/components/modal/crud-modal/CrudModal";
+import { PaginationProps } from "shared/components/pagination/Pagination";
 import { CrudTypes } from "shared/interfaces/crud";
 
 export interface IUseTable{
@@ -27,10 +30,21 @@ export default function useTable<Create extends FieldValues, Update, Delete>({
 }: IUseTable) {
   const [entity, setEntity] = useState(defaultValue)
   const [type, setType] = useState<CrudTypes>(CrudTypes.Create);
-  const [items, setItems] = useState([]);
+  const [itemsResponse, setItemsResponse] = useState<{items:[]; pagination:PaginationProps}>({
+    items:[],
+    pagination:{
+      currentPage:1,
+      pageSize:1,
+      totalCount:1,
+      totalPages:1      
+    }
+  });
   const [data, setData] = useState<any>();
   const [method, setMethod] = useState(() => onMethod);
   const [triggerReset, setTriggerReset] = useState(1);
+  const [baseParams, setBaseParams] = useState<BaseSearchParams>({  
+pageSize:1, pageNumber:4   
+  })
   const formHook = useForm({
     defaultValues: useMemo(() => {
       return entity;
@@ -38,13 +52,13 @@ export default function useTable<Create extends FieldValues, Update, Delete>({
   });
   const [crudModalProps, setCrudModalProps] = useState<ICrudModal>({
     modalProps: {
-      status: "close",
+      status: false,
       onClose: () => {
         setCrudModalProps({
           ...crudModalProps,
           modalProps: {
             ...crudModalProps.modalProps,
-            status: "close",
+            status: false,
           },
         });
       },
@@ -61,21 +75,22 @@ export default function useTable<Create extends FieldValues, Update, Delete>({
     body: null,
   });
   useEffect(() => {
-    console.log("LIST EFFECT");
     async function oo() {
-      return await calls.Items();
+      return await calls.Items(getSearchParams());
     }
     oo()
       .then((x) => {
-        setItems(x.data.result);
+        
+        setItemsResponse(x.data);
       })
       .catch((error) => console.log(error));
-  }, []);
+  }, [baseParams]);
   async function getItems() {
     return await calls
-      .Items()
+      .Items(getSearchParams())
       .then((response) => {
-        setItems(response.data.result);
+        console.log(response.data)
+        setItemsResponse(response.data.items);
       })
       .catch((error) => console.log(error));
   }
@@ -138,13 +153,13 @@ export default function useTable<Create extends FieldValues, Update, Delete>({
         }
         case CrudTypes.Delete:{
           setCrudModalProps({
-            ...crudModalProps, modalProps:{...crudModalProps.modalProps, status:"close"}
+            ...crudModalProps, modalProps:{...crudModalProps.modalProps, status:false}
           })
           break;
         }
         case CrudTypes.Update :{
           setCrudModalProps({
-            ...crudModalProps, modalProps:{...crudModalProps.modalProps, status:"close"}
+            ...crudModalProps, modalProps:{...crudModalProps.modalProps, status:false}
           })
           break;
         }
@@ -176,9 +191,15 @@ export default function useTable<Create extends FieldValues, Update, Delete>({
       }
     }
   };
-
+const getSearchParams = ()=>{
+  const params = new URLSearchParams();
+  Object.entries(baseParams).forEach(param=>{
+    params.append(param[0], param[1])
+  })
+  return params
+}
   return {
-    items,
+    itemsResponse,
     getItems,
     type,
     setType,
@@ -191,7 +212,9 @@ export default function useTable<Create extends FieldValues, Update, Delete>({
     addServerErrors,
     setMethod,
     entity,
-    setEntity
+    setEntity,
+    setBaseParams,
+    baseParams
   };
 }
 // function useGenerateUseForm(

@@ -1,24 +1,40 @@
+import { IconButton, Tooltip } from "@chakra-ui/react";
+import { FaTrashAlt, FaPencilAlt, FaRegEye } from "react-icons/fa";
+import CrudOption from "./CrudOption";
+
 export interface ICrudOptions {
-  id:string;
-  viewMethod?: (id:string) => void;
-  updateMethod: (id:string) => void;
-  deleteMethod?: (id:string) => void;
+  id: string;
+  viewMethod?: (id: string) => void;
+  updateMethod: (id: string) => void;
+  deleteMethod?: (id: string) => void;
 }
 
-export default function CrudOptions({ id,updateMethod,deleteMethod,viewMethod }: ICrudOptions) {
+export default function CrudOptions({
+  id,
+  updateMethod,
+  deleteMethod,
+  viewMethod,
+}: ICrudOptions) {
   return (
-    <>
-      {/* <select>
-        <option value=""></option>
-        <option value="">
-          <button
-          onClick={()=>method()}
-          >ggg</button>
-        </option>
-      </select> */}
-      <button onClick={()=>updateMethod(id)}>Update</button>
-      <button onClick={()=>viewMethod!(id)}>View</button>
-      <button onClick={()=>deleteMethod!(id)}>Delete</button>
+    <>     
+      <CrudOption
+      aria_label="update-button"
+      icon={<FaPencilAlt/>}
+      method={()=>updateMethod(id)}
+      toolTip="Edit"      
+      />
+      <CrudOption
+      aria_label="delete-button"
+      icon={<FaTrashAlt/>}
+      method={()=>deleteMethod!(id)}
+      toolTip="Delete"      
+      />
+      <CrudOption
+      aria_label="view-button"
+      icon={<FaRegEye/>}
+      method={()=>viewMethod!(id)}
+      toolTip="View"      
+      />         
     </>
   );
 }

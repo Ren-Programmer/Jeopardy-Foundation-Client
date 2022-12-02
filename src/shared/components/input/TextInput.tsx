@@ -1,14 +1,14 @@
-import Input, { IInput } from "./Input";
+import { Input, InputProps } from "@chakra-ui/react";
+import { IInput } from "./Input";
 
 export interface ITextInput {
-  elementInputProps: IInput;
+  props: InputProps;
 }
 
-export default function TextInput({ elementInputProps }: ITextInput) {
-  elementInputProps.inputType = "text";
+export default function TextInput({props}: ITextInput) {
   return (
     <>
-      <Input {...elementInputProps} />
+      <Input type={"text"} {...props}/>
     </>
   );
 }

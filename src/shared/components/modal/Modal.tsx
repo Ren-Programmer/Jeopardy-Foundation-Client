@@ -1,11 +1,21 @@
 import Button from "../button/regular-button/Button";
-import "./css/Modal.css";
 import ModalBody, { IModalBody } from "./ModalBody";
 import ModalFooter, { IModalFooter } from "./ModalFooter";
 import ModalHeader, { IModalHeader } from "./ModalHeader";
+import {
+  Modal as CModal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader as CModalHeader,
+  ModalFooter as CModalFooter,
+  ModalBody as CModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Divider,
+} from "@chakra-ui/react";
 
 export interface IModal {
-  status: "open" | "close";
+  status: boolean;
   onClose: () => void;
   modalHeaderProps: IModalHeader;
   modalBodyProps: IModalBody;
@@ -19,30 +29,25 @@ export default function Modal({
   modalBodyProps,
   modalFooterProps,
 }: IModal) {
-  if (status === "close") return null;
   return (
-    <>
-      <div className="modal">
-        <div className="modal-content">
-          <div className="modal-header">
-            <div className="modal-title">
-              <ModalHeader {...modalHeaderProps} />
-            </div>
-            <div className="close-modal">
-              <button
-              onClick={onClose}
-              >X
-              </button>
-            </div>
-          </div>
-          <div className="modal-body">
+    <>      
+      <CModal closeOnOverlayClick={false} isOpen={status} onClose={onClose}>
+        <ModalOverlay></ModalOverlay>
+        <ModalContent>
+          <CModalHeader>
+            <ModalHeader {...modalHeaderProps} />
+          </CModalHeader>
+          <ModalCloseButton></ModalCloseButton>
+          <Divider></Divider>
+          <CModalBody>
             <ModalBody {...modalBodyProps} />
-          </div>
-          <div className="modal-footer">
+          </CModalBody>
+          <Divider></Divider>
+          <CModalFooter>
             <ModalFooter {...modalFooterProps} />
-          </div>
-        </div>
-      </div>
+          </CModalFooter>
+        </ModalContent>
+      </CModal>
     </>
   );
 }

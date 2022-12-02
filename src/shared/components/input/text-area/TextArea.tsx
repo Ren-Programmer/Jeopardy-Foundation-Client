@@ -1,14 +1,15 @@
 import Label from "shared/components/label/Label";
-import Input, { IInput } from "../Input";
+import {Textarea as CTextArea,TextareaProps} from "@chakra-ui/react"
+
 
 export interface ITextArea {
-  elementInputProps: IInput;
+  props: TextareaProps;
 }
 
-export default function TextArea({ elementInputProps }: ITextArea) {
+export default function TextArea({ props }: ITextArea) {
   return (
     <>
-      <Input {...elementInputProps} isTextArea={true} />
+      <CTextArea {...props}/>
     </>
   );
 }

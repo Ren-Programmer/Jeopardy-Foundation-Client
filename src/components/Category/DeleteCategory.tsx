@@ -9,13 +9,13 @@ export default function DeleteCategory(){
     <CategoryName
         formHook={formHook} 
         additionalInputProps={{
-          readOnly:true
+          isReadOnly:true
         }}      
       />
       <CategoryDescription
       formHook={formHook}
       additionalInputProps={{
-        readOnly:true
+        isReadOnly:true
       }}
       />   
     </>

@@ -10,13 +10,13 @@ export default function ViewCategory() {
       <CategoryName
         formHook={formHook} 
         additionalInputProps={{
-          readOnly:true
+          isReadOnly:true
         }}      
       />
       <CategoryDescription
       formHook={formHook}
       additionalInputProps={{
-        readOnly:true
+        isReadOnly:true
       }}
       />   
     </>

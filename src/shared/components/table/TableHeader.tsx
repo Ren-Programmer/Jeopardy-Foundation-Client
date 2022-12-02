@@ -1,3 +1,4 @@
+import { Thead,Tr, Th } from "@chakra-ui/react";
 import { Fragment } from "react";
 
 export interface ITableHeader {
@@ -12,21 +13,21 @@ export interface IHeader {
 
 export default function TableHeader({ headers, optionsStatus }: ITableHeader) {
   return (
-    <thead>
-      <tr>
+    <Thead>
+      <Tr>
         {headers
           .sort((a, b) => a.order - b.order)
           .map((x) => {
             return (
               <Fragment key={x.order}>
-                <th scope="col">
+                <Th scope="col">
                   {x.displayName}
-                </th>
+                </Th>
               </Fragment>
             );
           })}
-          {optionsStatus === "show" && <th scope="col">Options</th>}
-      </tr>
-    </thead>
+          {optionsStatus === "show" && <Th scope="col">Options</Th>}
+      </Tr>
+    </Thead>
   );
 }

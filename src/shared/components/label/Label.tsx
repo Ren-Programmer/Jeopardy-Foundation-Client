@@ -1,4 +1,4 @@
-import "./Label.css";
+
 
 export interface ILabel {
   propertyName: string;

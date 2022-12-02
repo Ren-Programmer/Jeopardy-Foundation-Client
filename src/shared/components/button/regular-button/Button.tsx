@@ -1,20 +1,21 @@
-import "./Button.css";
+import { Button as CButton, ButtonProps } from "@chakra-ui/react";
 
-export interface IButton{
-    info:string
-    buttonProps: React.ButtonHTMLAttributes<HTMLButtonElement>
-    size?:"sm"|"md"|"lg"
+//import "./Button.css";
+
+export interface IButton {
+  info: string;
+  // buttonProps: React.ButtonHTMLAttributes<HTMLButtonElement>;
+  buttonProps:ButtonProps
 }
 
-export default function Button({
-    info,
-    buttonProps
-}:IButton) {
+export default function Button({ info, buttonProps }: IButton) {
+  
   return (
     <>
-      <button
+      <CButton {...buttonProps}>{info}</CButton>
+      {/* <button
       {...buttonProps}
-      >{info}</button>
+      >{info}</button> */}
     </>
   );
 }

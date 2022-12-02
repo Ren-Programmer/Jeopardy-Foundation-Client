@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 
 export default interface IAgentGenericCalls {
-  Items: () => Promise<AxiosResponse<any, any>>;
+  Items: (params:URLSearchParams) => Promise<AxiosResponse<any, any>>;
   Item: (id: string) => Promise<AxiosResponse<any, any>>;
   Create: (body: {}) => Promise<AxiosResponse<any, any>>;
   Update: (data:{id:string, body:{}}) => Promise<AxiosResponse<any, any>>;
@@ -22,4 +22,11 @@ export interface ServerResponse{
   statusCode: 200 | 201 | 400 | 500 | 402;
   isSuccess: boolean;
   result: object | ServerErrorResult;
+}
+
+export interface BaseSearchParams{
+  orderBy?:string
+  searchCriteria?:string
+  pageNumber?:number
+  pageSize?:number
 }

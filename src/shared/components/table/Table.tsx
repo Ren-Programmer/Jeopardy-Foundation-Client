@@ -1,13 +1,18 @@
 import TableBody from "shared/components/table/TableBody";
-import TableHeader, {
-  IHeader,
-  ITableHeader,
-} from "shared/components/table/TableHeader";
-import "./css/Table.css";
+import TableHeader, { ITableHeader } from "shared/components/table/TableHeader";
+//import "./css/Table.css";
 import Card from "../card/Card";
 import { ICardHeader } from "../card/card-header/CardHeader";
-import CrudOptions from "./crud-table/CrudOptions";
-import { ReactElement } from "react";
+import {
+  Box,
+  Table as CTable,
+  TableCaption,
+  TableContainer,
+  Tfoot,
+  Tr,
+} from "@chakra-ui/react";
+import Pagination, { PaginationProps } from "../pagination/Pagination";
+import { BaseSearchParams } from "api/interfaces";
 
 export interface ITable {
   tableHeaderProps: ITableHeader;
@@ -17,6 +22,9 @@ export interface ITable {
   updateMethod: (id: string) => void;
   viewMethod: (id: string) => void;
   deleteMethod: (id: string) => void;
+  paginationProps:PaginationProps
+  baseParam:BaseSearchParams;
+  setBaseParam:React.Dispatch<React.SetStateAction<BaseSearchParams>>
 }
 
 export default function Table({
@@ -26,7 +34,10 @@ export default function Table({
   cardHeaderProps,
   updateMethod,
   viewMethod,
-  deleteMethod
+  deleteMethod,
+  paginationProps,
+  baseParam,
+  setBaseParam
 }: ITable) {
   return (
     <>
@@ -34,19 +45,37 @@ export default function Table({
         cardHeaderProps={cardHeaderProps}
         cardBodyProps={{
           children: (
-            <div className="table-div">
-              <table>
-                <caption>{caption}</caption>
-                <TableHeader {...tableHeaderProps} />
-                <TableBody
-                  updateMethod={updateMethod}
-                  viewMethod={viewMethod}
-                  deleteMethod={deleteMethod}
-                  tableHeaderProps={tableHeaderProps}
-                  data={data}
+            <>
+              <TableContainer>
+                <CTable colorScheme={"messenger"} variant={"striped"}>
+                  <TableCaption placement={"top"}>{caption}</TableCaption>
+                  <TableHeader {...tableHeaderProps} />
+                  <TableBody
+                    updateMethod={updateMethod}
+                    viewMethod={viewMethod}
+                    deleteMethod={deleteMethod}
+                    tableHeaderProps={tableHeaderProps}
+                    data={data}
+                  />
+                  <Tfoot mt={3}>
+                    <Tr></Tr>
+                  </Tfoot>
+                </CTable>
+              </TableContainer>
+              <Box mt={2}>
+                <Pagination
+                  // paginationProps={{
+                  //   currentPage: 45,
+                  //   pageSize: 3,
+                  //   totalCount: 150,
+                  //   totalPages: 50,
+                  // }}
+                  paginationProps={paginationProps}
+                  baseParam ={baseParam}
+                  setBaseParam = {setBaseParam}
                 />
-              </table>
-            </div>
+              </Box>
+            </>
           ),
         }}
       />

@@ -15,23 +15,23 @@ export interface IUseCrudTable {
     view: ReactElement;
     delete: ReactElement;
   };
-  displayProps:{
+  displayProps: {
     displayName: string;
-    caption:string
-    cardTitle:string
-  }
-  headers:IHeader[]
+    caption: string;
+    cardTitle: string;
+  };
+  headers: IHeader[];
 }
 
 export default function useCrudTable({
   useTableProps,
   crudComponents,
-  displayProps:{displayName,caption,cardTitle},
-  headers
+  displayProps: { displayName, caption, cardTitle },
+  headers,
 }: IUseCrudTable) {
   const { calls, defaultValue } = useTableProps;
   const {
-    items,
+    itemsResponse,
     crudModalProps,
     setCrudModalProps,
     setType,
@@ -41,7 +41,11 @@ export default function useCrudTable({
     onError,
     setMethod,
     setEntity,
+    setBaseParams,
+    baseParams,
   } = useTable(useTableProps);
+
+  const { items, pagination } = itemsResponse;
 
   const createMethod = () => {
     setType(CrudTypes.Create);
@@ -51,7 +55,7 @@ export default function useCrudTable({
       ...crudModalProps,
       modalProps: {
         ...crudModalProps.modalProps,
-        status: "open",
+        status: true,
         modalHeaderProps: {
           title: `Create ${displayName}`,
         },
@@ -79,7 +83,7 @@ export default function useCrudTable({
       ...crudModalProps,
       modalProps: {
         ...crudModalProps.modalProps,
-        status: "open",
+        status: true,
 
         modalHeaderProps: {
           title: `Update ${displayName}`,
@@ -110,7 +114,7 @@ export default function useCrudTable({
       ...crudModalProps,
       modalProps: {
         ...crudModalProps.modalProps,
-        status: "open",
+        status: true,
 
         modalHeaderProps: {
           title: `View ${displayName}`,
@@ -141,7 +145,7 @@ export default function useCrudTable({
       ...crudModalProps,
       modalProps: {
         ...crudModalProps.modalProps,
-        status: "open",
+        status: true,
 
         modalHeaderProps: {
           title: `Delete ${displayName}`,
@@ -168,36 +172,40 @@ export default function useCrudTable({
 
   const component = (
     <>
-     <FormProvider {...formHook}>
+      <FormProvider {...formHook}>
         <CrudTable
+          baseParam={baseParams}
+          setBaseParam={setBaseParams}
           tableProps={{
+            baseParam:baseParams,
+          setBaseParam:setBaseParams,
             tableHeaderProps: {
               headers: headers,
               optionsStatus: "show",
-            },
+            },            
+            paginationProps: pagination,
             updateMethod,
             viewMethod,
             deleteMethod,
             data: items,
             caption,
             cardHeaderProps: {
-              cardTitle
+              cardTitle,
             },
           }}
           modalProps={crudModalProps}
-          createMethod={createMethod}         
-        />
+          createMethod={createMethod}       />
 
         <CrudModal {...crudModalProps} />
       </FormProvider>
     </>
-  )
-  
+  );
+
   async function getItem(id: string) {
     await calls.Item(id).then((x) => setEntity({ id, ...x.data.result }));
   }
 
   return {
-    component: ()=>component
+    component: () => component,
   };
 }

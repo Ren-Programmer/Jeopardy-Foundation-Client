@@ -1,5 +1,6 @@
 import axios, { AxiosResponse, AxiosError } from "axios";
 import { toast } from "react-toastify";
+import { PaginationProps } from "shared/components/pagination/Pagination";
 import { AsyncKeyword } from "typescript";
 import IAgentGenericCalls from "./interfaces";
 
@@ -14,6 +15,15 @@ const requestBody = (response: AxiosResponse) => response;
 axios.interceptors.response.use(
   async (response) => {
     await sleep();
+    const pagination = response.headers["pagination"];
+   if(pagination){
+    const ff = JSON.parse(response.headers["pagination"]!) as PaginationProps
+    console.log(ff)
+    response.data = {
+      items:response.data.result, 
+      pagination:ff
+    }
+   }
     return response;
   },
   (error: AxiosError<any, any>) => {
@@ -35,8 +45,8 @@ axios.interceptors.response.use(
 );
 
 const requests = {
-  get: (url: string) => {
-    return axios.get(url).then(requestBody);
+  get: (url: string, params?:URLSearchParams) => {
+    return axios.get(url,{params}).then(requestBody);
   },
   post: (url: string, body: {}) => {
     return axios.post(url, body).then(requestBody);
@@ -50,8 +60,8 @@ const requests = {
 };
 
 const Category: IAgentGenericCalls = {
-  Items: () => {
-    return requests.get("CategoryAPI");
+  Items: (params:URLSearchParams) => {
+    return requests.get("CategoryAPI", params);
   },
   Item: (id: string) => {
     return requests.get(`CategoryAPI/${id}`);

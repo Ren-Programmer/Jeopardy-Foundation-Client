@@ -1,4 +1,5 @@
 import { ReactElement } from "react";
+import Button from "shared/components/button/regular-button/Button";
 import DefaultButton from "shared/components/button/regular-button/default/DefaultButton";
 import SuccessButton from "shared/components/button/regular-button/Success/SuccessButton";
 import { CrudTypes } from "shared/interfaces/crud";
@@ -21,15 +22,25 @@ export default function CrudActions({
   };
   switch (type) {
     case CrudTypes.Create: {
-      button = <SuccessButton buttonProps={buttonProps} info="Create" />;
+      button = <Button  info="Create" buttonProps={{
+        ...buttonProps,
+        colorScheme:"messenger"
+      }} />;
       break;
     }
     case CrudTypes.Update: {
-      button = <SuccessButton buttonProps={buttonProps} info="Update" />;
+      // button = <SuccessButton buttonProps={buttonProps} info="Update" />;
+      button = <Button  info="Update" buttonProps={{
+        ...buttonProps,
+        colorScheme:"messenger"
+      }} />;
       break;
     }
     case CrudTypes.Delete: {
-      button = <SuccessButton buttonProps={buttonProps} info="Delete" />;
+      button = <Button  info="Delete" buttonProps={{
+        ...buttonProps,
+        colorScheme:"messenger"
+      }} />;
       break;
     }
     default: {
@@ -41,13 +52,19 @@ export default function CrudActions({
   return (
     <>
       <div className="crud-buttons">
-        {(type !== CrudTypes.View && type!== CrudTypes.Delete) && (
+        {type !== CrudTypes.View && type !== CrudTypes.Delete && (
           <div className="reset">
-            <DefaultButton
+            {/* <DefaultButton
               buttonProps={{
                 onClick: cancelMethod,
               }}
               info="Reset"
+            /> */}
+            <Button
+              info="Reset"
+              buttonProps={{
+                onClick: cancelMethod,
+              }}
             />
           </div>
         )}
