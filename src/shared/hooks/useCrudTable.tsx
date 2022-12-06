@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { FormProvider } from "react-hook-form";
+import { FormProvider, UseFormReturn } from "react-hook-form";
 import CrudActions from "shared/components/modal/crud-modal/CrudActions";
 import CrudModal from "shared/components/modal/crud-modal/CrudModal";
 import CrudTable from "shared/components/table/crud-table/CrudTable";
@@ -77,7 +77,8 @@ export default function useCrudTable({
     });
   };
   const updateMethod = async (id: string) => {
-    setEntity(defaultValue);
+    //setEntity(defaultValue);
+    await getItem(id, formHook);
     setMethod(() => calls.Update);
     setCrudModalProps({
       ...crudModalProps,
@@ -104,11 +105,12 @@ export default function useCrudTable({
       },
       body: crudComponents.update,
     });
-    await getItem(id);
+    
     setType(CrudTypes.Update);
   };
   const viewMethod = async (id: string) => {
-    setEntity(defaultValue);
+    //setEntity(defaultValue);
+    await getItem(id, formHook);
     setMethod(() => calls.Update);
     setCrudModalProps({
       ...crudModalProps,
@@ -135,11 +137,12 @@ export default function useCrudTable({
       },
       body: crudComponents.view,
     });
-    await getItem(id);
+    //await getItem(id, formHook);
     setType(CrudTypes.View);
   };
   const deleteMethod = async (id: string) => {
-    setEntity(defaultValue);
+    //setEntity(defaultValue);
+    await getItem(id, formHook);
     setMethod(() => calls.Delete);
     setCrudModalProps({
       ...crudModalProps,
@@ -166,7 +169,7 @@ export default function useCrudTable({
       },
       body: crudComponents.delete,
     });
-    await getItem(id);
+    //await getItem(id, formHook);
     setType(CrudTypes.Delete);
   };
 
@@ -177,14 +180,14 @@ export default function useCrudTable({
           baseParam={baseParams}
           setBaseParam={setBaseParams}
           tableProps={{
-            baseParam:baseParams,
-          setBaseParam:setBaseParams,
+            baseParam: baseParams,
+            setBaseParam: setBaseParams,
             tableHeaderProps: {
               headers: headers,
               optionsStatus: "show",
-              baseParam:baseParams,
-              setBaseParam:setBaseParams
-            },            
+              baseParam: baseParams,
+              setBaseParam: setBaseParams,
+            },
             paginationProps: pagination,
             updateMethod,
             viewMethod,
@@ -196,15 +199,17 @@ export default function useCrudTable({
             },
           }}
           modalProps={crudModalProps}
-          createMethod={createMethod}       />
+          createMethod={createMethod}
+        />
 
         <CrudModal {...crudModalProps} />
       </FormProvider>
     </>
   );
 
-  async function getItem(id: string) {
+  async function getItem(id: string, formHook: UseFormReturn) {
     await calls.Item(id).then((x) => setEntity({ id, ...x.data.result }));
+    setTriggerReset(Math.random());
   }
 
   return {

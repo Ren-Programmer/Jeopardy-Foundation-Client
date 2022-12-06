@@ -79,7 +79,30 @@ const Category: IAgentGenericCalls = {
   },
 };
 
+const AgeGroup: IAgentGenericCalls = {
+  Items: (params:URLSearchParams) => {
+    return requests.get("AgeGroupAPI", params);
+  },
+  Item: (id: string) => {
+    return requests.get(`AgeGroupAPI/${id}`);
+  },
+  Create: (body: {}) => {
+    console.log(body)
+    return requests.post("AgeGroupAPI", body);
+  },
+  Update:(data:any) =>{
+    console.log(data)
+    return requests.put(`AgeGroupAPI/${data.id}`,data);
+  },
+  Delete:(data:any) =>{
+    console.log(data)
+    return requests.delete(`AgeGroupAPI/${data.id}`);
+  },
+};
+
+
+
 const agent = {
-  Category,
+  Category,AgeGroup
 };
 export default agent;

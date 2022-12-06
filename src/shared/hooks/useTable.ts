@@ -147,7 +147,6 @@ export default function useTable<Create extends FieldValues, Update, Delete>({
       console.log(response, type);
       switch (type) {
         case CrudTypes.Create: {
-          alert();
           formHook.reset(entity);
           break;
         }

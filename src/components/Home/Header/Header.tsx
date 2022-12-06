@@ -33,6 +33,9 @@ export default function Header() {
         <Link  marginX={2} as={NavLink} to={"/categories"}>
           Categories
         </Link>
+        <Link  marginX={2} as={NavLink} to={"/age-groups"}>
+          Age Groups
+        </Link>
         <Spacer></Spacer>
         <IconButton
           aria-label="color-mode"
