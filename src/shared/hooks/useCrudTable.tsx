@@ -105,7 +105,7 @@ export default function useCrudTable({
       },
       body: crudComponents.update,
     });
-    
+    //await getItem(id, formHook);
     setType(CrudTypes.Update);
   };
   const viewMethod = async (id: string) => {

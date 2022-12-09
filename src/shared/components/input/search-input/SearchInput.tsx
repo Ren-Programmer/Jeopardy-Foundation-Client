@@ -21,10 +21,12 @@ export interface ISerachInput {
 export default function SearchInput({ baseParam, setBaseParam }: ISerachInput) {
   const [query, setQuery] = useState("");
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setBaseParam({ ...baseParam, searchCriteria: query, pageNumber: 1 });
-    }, 2000);
-    return () => clearTimeout(timeoutId);
+    if (query !== "") {
+      const timeoutId = setTimeout(() => {
+        setBaseParam({ ...baseParam, searchCriteria: query, pageNumber: 1 });
+      }, 2000);
+      return () => clearTimeout(timeoutId);
+    }
   }, [query]);
 
   return (

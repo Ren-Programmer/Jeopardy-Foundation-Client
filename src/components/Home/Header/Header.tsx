@@ -16,7 +16,6 @@ import { FaSun, FaMoon, FaHeadset } from "react-icons/fa";
 import { useState } from "react";
 
 export default function Header() {
-  const activeClassName = "active-link";
   const { colorMode, toggleColorMode } = useColorMode();
   const isDark = colorMode === "dark";
   const [isNotSmallerScreen] = useMediaQuery("(min-width:600px)")
@@ -35,6 +34,9 @@ export default function Header() {
         </Link>
         <Link  marginX={2} as={NavLink} to={"/age-groups"}>
           Age Groups
+        </Link>
+        <Link  marginX={2} as={NavLink} to={"/questions"}>
+          Questions
         </Link>
         <Spacer></Spacer>
         <IconButton

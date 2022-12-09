@@ -1,5 +1,5 @@
-import { Thead, Tr, Th, Box, chakra } from "@chakra-ui/react";
-import { Fragment, useEffect, useState } from "react";
+import { Thead, Tr, Th, Box, chakra, BadgeProps } from "@chakra-ui/react";
+import { Fragment, ReactElement, useEffect, useState } from "react";
 import TableHead from "./TableHead";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { BaseSearchParams } from "api/interfaces";
@@ -14,6 +14,7 @@ export interface IHeader {
   name: string;
   displayName: string;
   order: number;
+  renderMethod?: (data: any) => ReactElement;
 }
 export interface IActiveHeader {
   activeHeaderId?: number;
@@ -36,20 +37,22 @@ export default function TableHeader({
   );
 
   useEffect(() => {
-    const timeOutId = setTimeout(() => {
-      if (activeHeader.activeHeaderId) {
-        setBaseParam({
-          ...baseParam,
-          orderBy:
-            activeHeader.activeName === undefined
-              ? undefined
-              : `${activeHeader.activeName} ${
-                  activeHeader.sortDirection === "descending" ? "desc" : null
-                }`,
-        });
-      }
-    }, 1000);
-    return () => clearTimeout(timeOutId);
+    if (Object.keys(activeHeader).length !== 0) {
+      const timeOutId = setTimeout(() => {
+        if (activeHeader.activeHeaderId) {
+          setBaseParam({
+            ...baseParam,
+            orderBy:
+              activeHeader.activeName === undefined
+                ? undefined
+                : `${activeHeader.activeName} ${
+                    activeHeader.sortDirection === "descending" ? "desc" : null
+                  }`,
+          });
+        }
+      }, 1000);
+      return () => clearTimeout(timeOutId);
+    }
   }, [activeHeader]);
 
   return (

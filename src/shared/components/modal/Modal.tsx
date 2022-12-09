@@ -12,6 +12,7 @@ import {
   ModalCloseButton,
   useDisclosure,
   Divider,
+  useColorMode,
 } from "@chakra-ui/react";
 
 export interface IModal {
@@ -29,11 +30,21 @@ export default function Modal({
   modalBodyProps,
   modalFooterProps,
 }: IModal) {
+  const { colorMode, toggleColorMode } = useColorMode();
   return (
-    <>      
-      <CModal closeOnOverlayClick={false} isOpen={status} onClose={onClose}>
+    <>
+      <CModal closeOnOverlayClick={false} isOpen={status} onClose={onClose}
+      scrollBehavior="inside"
+      >
         <ModalOverlay></ModalOverlay>
         <ModalContent>
+          <button
+            onClick={() => {
+              toggleColorMode();
+            }}
+          >
+            dfazdv ad
+          </button>
           <CModalHeader>
             <ModalHeader {...modalHeaderProps} />
           </CModalHeader>

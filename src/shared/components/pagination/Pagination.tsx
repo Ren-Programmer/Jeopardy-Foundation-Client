@@ -5,9 +5,8 @@ import PaginationButton from "./PaginationButton";
 
 export interface IPagination {
   paginationProps: PaginationProps;
-  baseParam:BaseSearchParams;
-  setBaseParam:React.Dispatch<React.SetStateAction<BaseSearchParams>>
-
+  baseParam: BaseSearchParams;
+  setBaseParam: React.Dispatch<React.SetStateAction<BaseSearchParams>>;
 }
 export interface PaginationProps {
   currentPage: number;
@@ -16,7 +15,11 @@ export interface PaginationProps {
   totalCount: number;
 }
 
-export default function Pagination({ paginationProps,baseParam,setBaseParam }: IPagination) {
+export default function Pagination({
+  paginationProps,
+  baseParam,
+  setBaseParam,
+}: IPagination) {
   const { currentPage, pageSize, totalCount, totalPages } = paginationProps;
   const spread = 2;
   let lesspages: number[] = [];
@@ -31,31 +34,37 @@ export default function Pagination({ paginationProps,baseParam,setBaseParam }: I
     <>
       <Flex alignContent={"center"} justifyContent={"center"}>
         <Box>
-            Showing {(currentPage!-1)* pageSize! + 1} to  {(currentPage!-1)* pageSize! + pageSize!} of {totalCount} Items
-(Needs Work re Wording)
+          Showing {(currentPage! - 1) * pageSize! + 1} to{" "}
+          {(currentPage! - 1) * pageSize! + pageSize!} of {totalCount} Items
+          (Needs Work re Wording)
         </Box>
         <Spacer></Spacer>
         <PaginationButton
           info="First"
           buttonProps={{
             disabled: currentPage === 1,
-            onClick: ()=> setBaseParam({...baseParam, pageNumber:1})
+            //onClick: () => setBaseParam({ ...baseParam, pageNumber: 1 }),
           }}
         />
         <PaginationButton
           info=">"
           buttonProps={{
             disabled: currentPage === 1,
-            onClick: ()=> setBaseParam({...baseParam, pageNumber:currentPage-1})
+            onClick: () =>
+              setBaseParam({ ...baseParam, pageNumber: currentPage - 1 }),
           }}
         />
 
         {lesspages.map((pageNumber) => {
           return (
             <>
-              <PaginationButton info={pageNumber.toString()} buttonProps={{
-                onClick: ()=> setBaseParam({...baseParam, pageNumber:pageNumber})
-              }} />
+              <PaginationButton
+                info={pageNumber.toString()}
+                buttonProps={{
+                  onClick: () =>
+                    setBaseParam({ ...baseParam, pageNumber: pageNumber }),
+                }}
+              />
             </>
           );
         })}
@@ -64,16 +73,18 @@ export default function Pagination({ paginationProps,baseParam,setBaseParam }: I
           info={currentPage!.toString()}
           buttonProps={{
             colorScheme: "messenger",
-                        
           }}
         />
 
         {morepages.map((pageNumber) => {
           return (
             <>
-              <PaginationButton info={pageNumber.toString()} buttonProps={{
-                onClick: ()=> setBaseParam({...baseParam, pageNumber})
-              }} />
+              <PaginationButton
+                info={pageNumber.toString()}
+                buttonProps={{
+                  onClick: () => setBaseParam({ ...baseParam, pageNumber }),
+                }}
+              />
             </>
           );
         })}
@@ -82,7 +93,8 @@ export default function Pagination({ paginationProps,baseParam,setBaseParam }: I
           info="<"
           buttonProps={{
             disabled: currentPage === totalPages,
-            onClick: ()=> setBaseParam({...baseParam, pageNumber:currentPage+1})
+            onClick: () =>
+              setBaseParam({ ...baseParam, pageNumber: currentPage + 1 }),
           }}
         />
 
@@ -91,7 +103,8 @@ export default function Pagination({ paginationProps,baseParam,setBaseParam }: I
             info={"Last"}
             buttonProps={{
               disabled: currentPage === totalPages,
-              onClick: ()=> setBaseParam({...baseParam, pageNumber:totalPages})
+              onClick: () =>
+                setBaseParam({ ...baseParam, pageNumber: totalPages }),
             }}
           />
         )}

@@ -1,22 +1,8 @@
 import agent from "api/agent";
-import { useEffect, useMemo, useState } from "react";
-import { FormProvider, SubmitErrorHandler, useForm } from "react-hook-form";
-import { toast } from "react-toastify";
-import CrudActions from "shared/components/modal/crud-modal/CrudActions";
-import CrudModal from "shared/components/modal/crud-modal/CrudModal";
-import CrudOptions from "shared/components/table/crud-table/CrudOptions";
-import CrudTable from "shared/components/table/crud-table/CrudTable";
 import { IHeader } from "shared/components/table/TableHeader";
 import useCrudTable from "shared/hooks/useCrudTable";
-import useTable from "shared/hooks/useTable";
-import { CrudTypes } from "shared/interfaces/crud";
-import "./Categories.css";
 import CreateCategory from "./CreateCategory";
 import DeleteCategory from "./DeleteCategory";
-import {
-  ICreateCategoryDTO,
-  IUpdateCategoryDTO,
-} from "./interfaces/category-dtos";
 import UpdateCategory from "./UpdateCategory";
 import ViewCategory from "./ViewCategory";
 
@@ -31,14 +17,7 @@ export default function Categories() {
   ];
 
   const {
-    // items,
-    // crudModalProps,
-    // formHook,
-    // createMethod,
-    // updateMethod,
-    // viewMethod,
-    // deleteMethod,
-    component
+    component,
   } = useCrudTable({
     useTableProps: {
       calls: agent.Category,
@@ -51,19 +30,13 @@ export default function Categories() {
       update: <UpdateCategory />,
       view: <ViewCategory />,
     },
-    displayProps:{
+    displayProps: {
       displayName: "Category",
-      caption:"All available Categories",
-      cardTitle:"Categories"
+      caption: "All available Categories",
+      cardTitle: "Categories",
     },
-    headers
+    headers,
   });
 
-  
-
-  return (
-    <>
-     {component()}
-    </>
-  );
+  return <>{component()}</>;
 }

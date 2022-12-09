@@ -18,7 +18,6 @@ export interface ICrudTable {
 }
 
 export default function CrudTable({tableProps,modalProps, createMethod, baseParam, setBaseParam }: ICrudTable) {
-
   const ff = (
     <>
       {/* <SuccessButton 

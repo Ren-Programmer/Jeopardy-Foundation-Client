@@ -6,6 +6,7 @@ export default interface IAgentGenericCalls {
   Create: (body: {}) => Promise<AxiosResponse<any, any>>;
   Update: (data:{id:string, body:{}}) => Promise<AxiosResponse<any, any>>;
   Delete: (data:{id:string}) => Promise<AxiosResponse<any, any>>;
+  Select?: (params:URLSearchParams) => Promise<AxiosResponse<any, any>>;
 }
 
 export interface ServerErrorResult {

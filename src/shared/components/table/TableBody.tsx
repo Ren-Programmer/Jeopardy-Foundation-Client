@@ -7,9 +7,10 @@ import { IHeader, ITableHeader } from "./TableHeader";
 export interface ITableBody {
   tableHeaderProps: ITableHeader;
   data: any[];
-  updateMethod:(id:string)=>void
-  viewMethod:(id:string)=>void
+  updateMethod: (id: string) => void;
+  viewMethod: (id: string) => void;
   deleteMethod: (id: string) => void;
+  //renderMethod?: () => ReactElement;
 }
 
 export default function TableBody({
@@ -17,20 +18,17 @@ export default function TableBody({
   data,
   updateMethod,
   viewMethod,
-  deleteMethod
-}: ITableBody) {
+  deleteMethod,
+}: //renderMethod,
+ITableBody) {
   const { headers, optionsStatus } = tableHeaderProps;
   return (
     <>
-      <Tbody  
-       
-      >
+      <Tbody>
         {data.length === 0 && (
           <>
             <Tr>
-              <Td colSpan={2}>
-                No Data is Present
-              </Td>
+              <Td colSpan={2}>No Data is Present</Td>
             </Tr>
           </>
         )}
@@ -46,19 +44,34 @@ export default function TableBody({
                       .map((header) => {
                         return (
                           <Fragment key={header.order}>
-                            {header.order === 1 && (
-                              <Td fontWeight={"semibold"} scope="row">{item[header.name]}</Td>
+                            {header.renderMethod === undefined && (
+                              <>
+                                {header.order === 1 && (
+                                  <Td fontWeight={"semibold"} scope="row">
+                                    {item[header.name]}
+                                  </Td>
+                                )}
+                                {header.order !== 1 && (
+                                  <Td>
+                                    <>{item[header.name]}</>
+                                  </Td>
+                                )}
+                              </>
                             )}
-                            {header.order !== 1 && <Td>{item[header.name]}</Td>}
+                            {header.renderMethod !== undefined && (
+                              <Td>{header.renderMethod(item[header.name])}</Td>
+                            )}
                           </Fragment>
                         );
                       })}
                     {optionsStatus === "show" && (
                       <Td>
-                        <CrudOptions id={item.id} 
-                        viewMethod={viewMethod}
-                        deleteMethod={deleteMethod}
-                        updateMethod={updateMethod} />
+                        <CrudOptions
+                          id={item.id}
+                          viewMethod={viewMethod}
+                          deleteMethod={deleteMethod}
+                          updateMethod={updateMethod}
+                        />
                       </Td>
                     )}
                   </Tr>

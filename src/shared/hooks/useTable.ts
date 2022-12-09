@@ -99,7 +99,7 @@ export default function useTable<Create extends FieldValues, Update, Delete>({
     onSubmit(data);
   }, [data]);
 
-  useEffect(() => {
+  useEffect(() => {console.log(entity)
     formHook.reset(entity);
   }, [entity, triggerReset]);
 
