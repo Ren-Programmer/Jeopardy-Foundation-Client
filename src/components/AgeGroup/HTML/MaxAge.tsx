@@ -18,7 +18,6 @@ export default function MaxAge({ formHook,props={} }: Age) {
                  rules={{
                   validate: (value: number) => {
                     const minValue = formHook.getValues()["minAge"]    
-                    console.log(minValue, value)                
                     if (value <= minValue) return "Maximum Age cannot be greater Minimum Age"
                     return true;
                   },

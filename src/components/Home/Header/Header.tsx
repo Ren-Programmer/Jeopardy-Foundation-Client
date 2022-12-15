@@ -11,31 +11,39 @@ import {
   useColorMode,
   Link,
   useMediaQuery,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuDivider,
 } from "@chakra-ui/react";
-import { FaSun, FaMoon, FaHeadset } from "react-icons/fa";
-import { useState } from "react";
+import { FaSun, FaMoon, FaUser } from "react-icons/fa";
+import { useContext, useState } from "react";
+import AuthenticationContext from "Contexts/AuthenticationContext";
+import { logOut } from "components/Account/useSecurity";
 
 export default function Header() {
   const { colorMode, toggleColorMode } = useColorMode();
   const isDark = colorMode === "dark";
-  const [isNotSmallerScreen] = useMediaQuery("(min-width:600px)")
+  const [isNotSmallerScreen] = useMediaQuery("(min-width:600px)");
+  const { claims, updateClaims } = useContext(AuthenticationContext);
   return (
     <>
       <Flex w="100%" mb={20}>
         <Heading fontWeight={"semibold"} color={"cyan.400"}>
-          Welcome!
+          Welcome!{/* Welcome! {claims[0].value} */}
         </Heading>
-        <Spacer></Spacer>      
+        <Spacer></Spacer>
         <Link marginX={2} as={NavLink} to={"/"}>
           DashBoard
         </Link>
-        <Link  marginX={2} as={NavLink} to={"/categories"}>
+        <Link marginX={2} as={NavLink} to={"/categories"}>
           Categories
         </Link>
-        <Link  marginX={2} as={NavLink} to={"/age-groups"}>
+        <Link marginX={2} as={NavLink} to={"/age-groups"}>
           Age Groups
         </Link>
-        <Link  marginX={2} as={NavLink} to={"/questions"}>
+        <Link marginX={2} as={NavLink} to={"/questions"}>
           Questions
         </Link>
         <Spacer></Spacer>
@@ -45,12 +53,29 @@ export default function Header() {
           isRound={true}
           onClick={toggleColorMode}
         ></IconButton>
-        <IconButton
-          ml={5}
-          aria-label="user"
-          icon={<FaHeadset />}
-          isRound={true}
-        ></IconButton>
+        <Menu>
+          <MenuButton>
+            <IconButton
+              ml={5}
+              aria-label="user"
+              icon={<FaUser />}
+              isRound={true}
+            ></IconButton>
+          </MenuButton>
+          <MenuList>
+            <MenuItem>
+              {claims.find((x) => x.property === "name")!.value as string}
+            </MenuItem>
+            <MenuDivider></MenuDivider>
+            <MenuItem
+              onClick={() => {
+                logOut(updateClaims);
+              }}
+            >
+              Log Out
+            </MenuItem>
+          </MenuList>
+        </Menu>
       </Flex>
     </>
   );

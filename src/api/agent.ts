@@ -13,13 +13,19 @@ axios.defaults.baseURL = "https://localhost:7271/api/";
 const requestBody = (response: AxiosResponse) => response;
 //const errorRequestBody = (error: AxiosError<any, any>) => error.response!;
 
+axios.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) config.headers!.Authorization = `Bearer ${token}`;
+  return config;
+});
+
 axios.interceptors.response.use(
   async (response) => {
     await sleep();
     const pagination = response.headers["pagination"];
     if (pagination) {
       const ff = JSON.parse(response.headers["pagination"]!) as PaginationProps;
-      console.log(response);
+      //console.log(response);
       response.data = {
         items: response.data.result,
         pagination: ff,
@@ -52,6 +58,8 @@ axios.interceptors.response.use(
   }
 );
 
+//axios.interceptors.request.use(async r)
+
 const requests = {
   get: (url: string, params?: URLSearchParams) => {
     return axios.get(url, { params }).then(requestBody);
@@ -65,6 +73,11 @@ const requests = {
   delete: (url: string) => {
     return axios.delete(url).then(requestBody);
   },
+};
+
+const Account = {
+  login: (values: any) => requests.post("security/login", values),
+  currentUser: () => requests.get("security/currentUser"),
 };
 
 const Category: IAgentGenericCalls = {
@@ -139,16 +152,16 @@ const Question: IAgentGenericCalls = {
 };
 
 const Helper = {
-  QuestionDifficulty:()=>{
+  QuestionDifficulty: () => {
     return requests.get("QuestionAPI/Difficulty");
-  }
-}
-
+  },
+};
 
 const agent = {
   Category,
   AgeGroup,
   Question,
-  Helper
+  Helper,
+  Account,
 };
 export default agent;

@@ -15,7 +15,7 @@ export interface ICard {
 export default function Card({ cardHeaderProps, cardBodyProps }: ICard) {
   return (
     <>  
-      <CCard>
+      <CCard >
         <CCHeader>
           <CardHeader {...cardHeaderProps} />
         </CCHeader>

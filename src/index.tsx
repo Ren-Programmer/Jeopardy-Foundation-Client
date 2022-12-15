@@ -1,13 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
+import AuthenticationContext, {
+  IAuth,
+  IClaim,
+} from "Contexts/AuthenticationContext";
+
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
+//value.isAuthorized = value.claims.length > 0;
 
 root.render(
   <React.StrictMode>
