@@ -20,13 +20,20 @@ function App() {
     // },
   ];
   const nClaims = getClaims();
-  console.log(nClaims)
   const [claims, setClaims] = useState<IClaim[]>(nClaims);
+  const isAuthenticated = claims.length > 0;
+  let isCrudAdmin = false;
+  if (isAuthenticated) {
+    const roles = nClaims.find((x) => x.property === "role");
+    isCrudAdmin =
+      (roles?.value as string[])?.find((x) => x === "CrudAdmin") !== undefined;
+  }
 
   const value: IAuth = {
     claims,
     updateClaims: setClaims,
-    isAuthenticated: claims.length > 0,
+    isAuthenticated,
+    isCrudAdmin,
   };
   useEffect(() => {
     console.log(claims);
