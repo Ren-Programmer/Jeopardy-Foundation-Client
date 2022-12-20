@@ -13,6 +13,12 @@ export interface GameCreationAgentGenericCalls extends IAgentGenericCalls {
   GetCategoriesForGame:(id: string) => Promise<AxiosResponse<any, any>>;
 }
 
+export interface GameQuestionAgentGenericCalls extends IAgentGenericCalls {
+  GetQuestionsForGame:(id: string) => Promise<AxiosResponse<any, any>>;
+}
+
+
+
 export interface ServerErrorResult {
   isValid: boolean;
   errors: ServerError[];

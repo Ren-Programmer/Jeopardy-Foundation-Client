@@ -3,7 +3,11 @@ import agent from "api/agent";
 import { IQuestionValue } from "components/QuestionValue/interfaces/question-values-dtos";
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router";
-import { IGameDeisgn } from "./interfaces/game-creationd-tos";
+import {
+  IGameCategory,
+  IGameDeisgn,
+  IGameQuestion,
+} from "./interfaces/game-creationd-tos";
 
 export default function useGameCreation() {
   const [loading, setLoading] = useState(true);
@@ -13,9 +17,8 @@ export default function useGameCreation() {
   const idParam = params.find((x) => x.split("=")[0] === "id")!.split("=")[1];
   const [questionValues, setQuestionValues] = useState<IQuestionValue[]>([]);
   const [game, setGame] = useState<IGameDeisgn>({ title: "" });
-  const [categories, setCategories] = useState<{ id: string; name: string }[]>(
-    []
-  );
+  const [categories, setCategories] = useState<IGameCategory[]>([]);
+  const [questions, setQuestions] = useState<IGameQuestion[]>([]);
 
   useEffect(() => {
     async function questionValueCall() {
@@ -26,6 +29,9 @@ export default function useGameCreation() {
     }
     async function gameCategoriesCall() {
       return await agent.GameCreation.GetCategoriesForGame(idParam);
+    }
+    async function gameQuestionsCall() {
+      return await agent.GameQuestion.GetQuestionsForGame(idParam);
     }
     if (loading === true) {
       gameCall().then((response) => {
@@ -39,19 +45,24 @@ export default function useGameCreation() {
       gameCategoriesCall().then((response) =>
         setCategories(response.data.result)
       );
+
+      gameQuestionsCall().then((response) =>
+        setQuestions(response.data.result)
+      );
     }
   }, []);
 
   useEffect(() => {
     setLoading(false);
-    console.log(categories);
-  }, [categories]);
+    console.log(questions);
+  }, [questions]);
 
   return {
     colorMode,
     questionValues,
     loading,
     game,
-    categories
+    categories,
+    questions
   };
 }

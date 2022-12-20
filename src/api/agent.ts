@@ -3,7 +3,7 @@ import { ICreateQuestionDTO } from "components/Question/interfaces/question-dtos
 import { toast } from "react-toastify";
 import { PaginationProps } from "shared/components/pagination/Pagination";
 import { AsyncKeyword } from "typescript";
-import IAgentGenericCalls, { GameCreationAgentGenericCalls } from "./interfaces";
+import IAgentGenericCalls, { GameCreationAgentGenericCalls, GameQuestionAgentGenericCalls } from "./interfaces";
 
 const sleep = () => new Promise((resolve) => setTimeout(resolve, 1000));
 
@@ -203,6 +203,27 @@ const QuestionValue: IAgentGenericCalls = {
   },
 };
 
+const GameQuestion:GameQuestionAgentGenericCalls ={
+  GetQuestionsForGame: function (id: string): Promise<AxiosResponse<any, any>> {
+    return requests.get(`GameCreationAPI/GetQuestionsForGame/${id}`);
+  },
+  Items: function (params: URLSearchParams): Promise<AxiosResponse<any, any>> {
+    throw new Error("Function not implemented.");
+  },
+  Item: function (id: string): Promise<AxiosResponse<any, any>> {
+    throw new Error("Function not implemented.");
+  },
+  Create: function (body: {}): Promise<AxiosResponse<any, any>> {
+    throw new Error("Function not implemented.");
+  },
+  Update: function (data: { id: string; body: {}; }): Promise<AxiosResponse<any, any>> {
+    throw new Error("Function not implemented.");
+  },
+  Delete: function (data: { id: string; }): Promise<AxiosResponse<any, any>> {
+    throw new Error("Function not implemented.");
+  }
+}
+
 const agent = {
   Category,
   AgeGroup,
@@ -211,5 +232,6 @@ const agent = {
   Account,
   GameCreation,
   QuestionValue,
+  GameQuestion
 };
 export default agent;

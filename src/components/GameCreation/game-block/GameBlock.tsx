@@ -1,18 +1,22 @@
 import { Stack } from "@chakra-ui/react";
 import GameValue from "../game-value/GameValue";
+import { IGameCategory, IGameQuestion } from "../interfaces/game-creationd-tos";
 
 export interface IGameBlock {
-  categoryName: string;
+  category: IGameCategory;
+  questions: IGameQuestion[];
 }
-export default function GameBlock({ categoryName }: IGameBlock) {
-  const y = [1, 2, 3, 4, 5];
+export default function GameBlock({ category, questions }: IGameBlock) {
+  const actualQuestions = questions
+    .filter((x) => x.categoryId === category.id)
+    .sort((a, b) => a.value - b.value);
   return (
     <>
       <Stack>
-        <GameValue value={categoryName} bgProps={{}} />
+        <GameValue value={category.name} bgProps={{}} />
 
-        {y.map((value, index) => {
-          return <GameValue key={index} value={value.toString()} />;
+        {actualQuestions.map((value, index) => {
+          return <GameValue key={index} value={value.problem} />;
         })}
       </Stack>
     </>

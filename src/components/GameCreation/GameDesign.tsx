@@ -22,7 +22,7 @@ export default function GameDesign({}: IGameDesign) {
   const length = [1, 2, 3, 4, 5];
   const values = [100, 300, 500, 800, 1000];
 
-  const { colorMode, questionValues, loading, game, categories } =
+  const { colorMode, questionValues, loading, game, categories,questions } =
     useGameCreation();
   if (loading) {
     return <>Loading</>;
@@ -52,7 +52,7 @@ export default function GameDesign({}: IGameDesign) {
           {categories.map((category) => {
             return (
               <GridItem key={category.id} w="100%" bg="telegram.500">
-                <GameBlock categoryName={category.name} />
+                <GameBlock category={category} questions={questions} />
               </GridItem>
             );
           })}
