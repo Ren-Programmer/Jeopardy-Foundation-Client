@@ -7,6 +7,7 @@ import UpdateQuestion from "./UpdateQuestion";
 import ViewQuestion from "./ViewQuestion";
 import { Badge, BreadcrumbLink } from "@chakra-ui/react";
 import { QuestionDifficulty } from "./interfaces/question-dtos";
+import { ProcessType } from "shared/components/Routing/Authorized";
 
 export interface IQuestions {}
 export default function Questions({}: IQuestions) {
@@ -59,6 +60,7 @@ export default function Questions({}: IQuestions) {
       calls: agent.Question,
       defaultValue,
       onMethod: agent.Question.Create,
+      type:ProcessType.GeneralCrud
     },
     crudComponents: {
       create: <CreateQuestion />,

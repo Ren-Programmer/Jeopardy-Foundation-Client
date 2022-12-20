@@ -15,18 +15,23 @@ import {
 import { toast } from "react-toastify";
 import { ICrudModal } from "shared/components/modal/crud-modal/CrudModal";
 import { PaginationProps } from "shared/components/pagination/Pagination";
+import { ProcessType } from "shared/components/Routing/Authorized";
+import { ICrudOption } from "shared/components/table/crud-table/CrudOption";
 import { CrudTypes } from "shared/interfaces/crud";
 
 export interface IUseTable {
   calls: IAgentGenericCalls;
   defaultValue: any;
   onMethod: (data: any) => Promise<AxiosResponse<any, any>>;
+  type:ProcessType
+  
 }
 
 export default function useTable<Create extends FieldValues, Update, Delete>({
   calls,
   defaultValue,
   onMethod,
+  
 }: IUseTable) {
   const [entity, setEntity] = useState(defaultValue);
   const [type, setType] = useState<CrudTypes>(CrudTypes.Create);

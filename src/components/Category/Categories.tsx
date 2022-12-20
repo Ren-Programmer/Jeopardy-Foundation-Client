@@ -1,4 +1,5 @@
 import agent from "api/agent";
+import { ProcessType } from "shared/components/Routing/Authorized";
 import { IHeader } from "shared/components/table/TableHeader";
 import useCrudTable from "shared/hooks/useCrudTable";
 import CreateCategory from "./CreateCategory";
@@ -23,6 +24,7 @@ export default function Categories() {
       calls: agent.Category,
       defaultValue,
       onMethod: agent.Category.Create,
+      type:ProcessType.GeneralCrud
     },
     crudComponents: {
       create: <CreateCategory />,

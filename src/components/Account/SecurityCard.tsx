@@ -21,7 +21,7 @@ export interface ISecurityCard {
 export default function SecurityCard({ heading, help, type }: ISecurityCard) {
   const { colorMode, toggleColorMode } = useColorMode();
   const isDark = colorMode === "dark";
-  const colorScheme = "messenger";
+  const colorScheme = process.env.REACT_APP_COLOR_SCHEME;
   const { error, formHook, submit } = useSecurity({ type });
   return (
     <>

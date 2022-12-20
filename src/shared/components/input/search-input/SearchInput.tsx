@@ -19,9 +19,9 @@ export interface ISerachInput {
 }
 
 export default function SearchInput({ baseParam, setBaseParam }: ISerachInput) {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState<string|null>(null);
   useEffect(() => {
-    if (query !== "") {
+    if (query !== null) {
       const timeoutId = setTimeout(() => {
         setBaseParam({ ...baseParam, searchCriteria: query, pageNumber: 1 });
       }, 2000);
@@ -33,7 +33,7 @@ export default function SearchInput({ baseParam, setBaseParam }: ISerachInput) {
     <>
       <Stack spacing={4} mr={4}>
         <InputGroup>
-          <Input value={query} onChange={(e) => setQuery(e.target.value)} />
+          <Input value={query === null?"":query} onChange={(e) => setQuery(e.target.value)} />
           <InputRightElement pointerEvents={"none"} children={<FaSearch />} />
         </InputGroup>
       </Stack>

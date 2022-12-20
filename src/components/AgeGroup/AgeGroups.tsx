@@ -1,4 +1,5 @@
 import agent from "api/agent";
+import { ProcessType } from "shared/components/Routing/Authorized";
 import { IHeader } from "shared/components/table/TableHeader";
 import useCrudTable from "shared/hooks/useCrudTable";
 import CreateAgeGroup from "./CreateAgeGroup";
@@ -25,6 +26,7 @@ export default function AgeGroups(){
           calls: agent.AgeGroup,
           defaultValue,
           onMethod: agent.Category.Create,
+          type:ProcessType.GeneralCrud
         },
         crudComponents: {
           create: <CreateAgeGroup />,

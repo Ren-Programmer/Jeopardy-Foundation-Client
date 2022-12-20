@@ -3,7 +3,7 @@ import exp from "constants";
 import AuthenticationContext, { IClaim } from "Contexts/AuthenticationContext";
 import { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
+import { NavigateFunction, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { IAuthenticationResponse } from "./account-interfaces";
 export interface ISecurity {
@@ -19,8 +19,8 @@ export default function useSecurity({ type }: ISecurity) {
     agent.Account.login(data)
       .then((response) => {
         toast.success("Success, you will be redirected.");
+        navigate("/dashboard");
         saveToken(response.data.result, updateClaims);
-        //navigate("/dashboard");
       })
       .catch((error) => {
         toast.error("UserName or Password is Incorrect. Please try again.");
@@ -65,17 +65,20 @@ export function getClaims(): IClaim[] {
   console.log(dataToken);
   const claims: IClaim[] = [];
   Object.keys(dataToken).forEach((key) => {
-    console.log(key, dataToken[key]);
-    console.log(claims);
-    claims.push({ property: key, value: dataToken[key] });
-    console.log(claims);
+    if (key === "roles") {
+      let roles = JSON.parse(dataToken[key]) as string[];
+      claims.push({ property: key, value: roles });
+    } else {
+      claims.push({ property: key, value: dataToken[key] });
+    }
   });
   return claims;
 }
 
-export function logOut(updateClaims:any) {
+export function logOut(updateClaims: any, navigate: NavigateFunction) {
   localStorage.removeItem(tokenKey);
   localStorage.removeItem(expirationKey);
   const claims = getClaims();
+  navigate("/login");
   updateClaims(claims);
 }

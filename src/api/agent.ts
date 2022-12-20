@@ -3,7 +3,7 @@ import { ICreateQuestionDTO } from "components/Question/interfaces/question-dtos
 import { toast } from "react-toastify";
 import { PaginationProps } from "shared/components/pagination/Pagination";
 import { AsyncKeyword } from "typescript";
-import IAgentGenericCalls from "./interfaces";
+import IAgentGenericCalls, { GameCreationAgentGenericCalls } from "./interfaces";
 
 const sleep = () => new Promise((resolve) => setTimeout(resolve, 1000));
 
@@ -75,6 +75,7 @@ const requests = {
   },
 };
 
+//Local development hence no encryption is done. On Production, SSL will be used via HTTPS
 const Account = {
   login: (values: any) => requests.post("security/login", values),
   currentUser: () => requests.get("security/currentUser"),
@@ -157,11 +158,58 @@ const Helper = {
   },
 };
 
+const GameCreation: GameCreationAgentGenericCalls = {
+  Items: (params: URLSearchParams) => {
+    return requests.get("GameCreationAPI", params);
+  },
+  Item: function (id: string): Promise<AxiosResponse<any, any>> {
+    return requests.get(`GameCreationAPI/${id}`);
+  },
+  Create: function (body: {}): Promise<AxiosResponse<any, any>> {
+    throw new Error("Function not implemented.");
+  },
+  Update: function (data: {
+    id: string;
+    body: {};
+  }): Promise<AxiosResponse<any, any>> {
+    throw new Error("Function not implemented.");
+  },
+  Delete: function (data: { id: string }): Promise<AxiosResponse<any, any>> {
+    throw new Error("Function not implemented.");
+  },
+  GetCategoriesForGame: (id:string)=>{
+    return requests.get(`GameCreationAPI/GetCategoriesForGame/${id}`);
+  }
+};
+
+const QuestionValue: IAgentGenericCalls = {
+  Items: (params: URLSearchParams) => {
+    return requests.get("QuestionValueAPI", params);
+  },
+  Item: function (id: string): Promise<AxiosResponse<any, any>> {
+    throw new Error("Function not implemented.");
+  },
+  Create: function (body: {}): Promise<AxiosResponse<any, any>> {
+    throw new Error("Function not implemented.");
+  },
+  Update: function (data: {
+    id: string;
+    body: {};
+  }): Promise<AxiosResponse<any, any>> {
+    throw new Error("Function not implemented.");
+  },
+  Delete: function (data: { id: string }): Promise<AxiosResponse<any, any>> {
+    throw new Error("Function not implemented.");
+  },
+};
+
 const agent = {
   Category,
   AgeGroup,
   Question,
   Helper,
   Account,
+  GameCreation,
+  QuestionValue,
 };
 export default agent;

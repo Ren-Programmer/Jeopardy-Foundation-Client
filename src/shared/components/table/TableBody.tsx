@@ -1,7 +1,9 @@
 import { Tbody, Td, Th, Tr } from "@chakra-ui/react";
 import { Fragment, ReactElement } from "react";
 import { ListDTOCommon } from "shared/interfaces/dtos";
-import CrudOptions from "./crud-table/CrudOptions";
+import { ProcessType } from "../Routing/Authorized";
+import { ICrudOption } from "./crud-table/CrudOption";
+import CrudOptions, { IAdditionalOption } from "./crud-table/CrudOptions";
 import { IHeader, ITableHeader } from "./TableHeader";
 
 export interface ITableBody {
@@ -10,6 +12,8 @@ export interface ITableBody {
   updateMethod: (id: string) => void;
   viewMethod: (id: string) => void;
   deleteMethod: (id: string) => void;
+  type: ProcessType;
+  additionalOptions: IAdditionalOption[];
   //renderMethod?: () => ReactElement;
 }
 
@@ -19,6 +23,8 @@ export default function TableBody({
   updateMethod,
   viewMethod,
   deleteMethod,
+  type,
+  additionalOptions,
 }: //renderMethod,
 ITableBody) {
   const { headers, optionsStatus } = tableHeaderProps;
@@ -67,6 +73,8 @@ ITableBody) {
                     {optionsStatus === "show" && (
                       <Td>
                         <CrudOptions
+                          additionalOptions={additionalOptions}
+                          type={type}
                           id={item.id}
                           viewMethod={viewMethod}
                           deleteMethod={deleteMethod}

@@ -23,10 +23,13 @@ function App() {
   const [claims, setClaims] = useState<IClaim[]>(nClaims);
   const isAuthenticated = claims.length > 0;
   let isCrudAdmin = false;
+  let isGameCreator = false;
   if (isAuthenticated) {
     const roles = nClaims.find((x) => x.property === "role");
     isCrudAdmin =
       (roles?.value as string[])?.find((x) => x === "CrudAdmin") !== undefined;
+      isGameCreator =
+      (roles?.value as string[])?.find((x) => x === "Member") !== undefined;
   }
 
   const value: IAuth = {
@@ -34,6 +37,7 @@ function App() {
     updateClaims: setClaims,
     isAuthenticated,
     isCrudAdmin,
+    isGameCreator
   };
   useEffect(() => {
     console.log(claims);

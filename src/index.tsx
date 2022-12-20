@@ -9,6 +9,7 @@ import AuthenticationContext, {
   IAuth,
   IClaim,
 } from "Contexts/AuthenticationContext";
+import setTheme from "theme";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -19,7 +20,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <ChakraProvider>
+      <ChakraProvider theme={setTheme()}>
         <ColorModeScript initialColorMode="light"></ColorModeScript>
         <App />
       </ChakraProvider>

@@ -1,4 +1,9 @@
-import { Link as RouterLink, NavLink, Outlet } from "react-router-dom";
+import {
+  Link as RouterLink,
+  NavLink,
+  Outlet,
+  useNavigate,
+} from "react-router-dom";
 //import "./Header.css";
 import {
   Box,
@@ -11,41 +16,95 @@ import {
   useColorMode,
   Link,
   useMediaQuery,
-  Menu,
+  Menu as CMenu,
   MenuButton,
   MenuList,
   MenuItem,
   MenuDivider,
+  Tooltip,
 } from "@chakra-ui/react";
-import { FaSun, FaMoon, FaUser } from "react-icons/fa";
+import { FaSun, FaMoon, FaUser, FaRegBuilding, FaHome, FaAdversal } from "react-icons/fa";
 import { useContext, useState } from "react";
 import AuthenticationContext from "Contexts/AuthenticationContext";
 import { logOut } from "components/Account/useSecurity";
+import Menu from "shared/components/menu/Menu";
 
 export default function Header() {
+  const navigate = useNavigate();
   const { colorMode, toggleColorMode } = useColorMode();
   const isDark = colorMode === "dark";
   const [isNotSmallerScreen] = useMediaQuery("(min-width:600px)");
-  const { claims, updateClaims } = useContext(AuthenticationContext);
+  const { claims, updateClaims, isCrudAdmin, isGameCreator } = useContext(
+    AuthenticationContext
+  );
   return (
     <>
       <Flex w="100%" mb={20}>
-        <Heading fontWeight={"semibold"} color={"cyan.400"}>
+        <Heading fontWeight={"semibold"} color="telegram.300">
           Welcome!{/* Welcome! {claims[0].value} */}
         </Heading>
         <Spacer></Spacer>
-        <Link marginX={2} as={NavLink} to={"/"}>
+        {/* <Link marginX={2} as={NavLink} to={"/"}>
           DashBoard
-        </Link>
-        <Link marginX={2} as={NavLink} to={"/categories"}>
-          Categories
-        </Link>
-        <Link marginX={2} as={NavLink} to={"/age-groups"}>
-          Age Groups
-        </Link>
-        <Link marginX={2} as={NavLink} to={"/questions"}>
-          Questions
-        </Link>
+        </Link> */}
+        <Tooltip label="Dashboard">
+          <IconButton
+            mr={5}
+            as={NavLink}
+            aria-label="color-mode"
+            icon={<FaHome />}
+            isRound={true}
+            to="/dashboard"
+          ></IconButton>
+        </Tooltip>
+
+        {isCrudAdmin && (
+          <>
+            <Menu
+              title="General"
+              icon={<FaRegBuilding />}
+              items={[
+                {
+                  title: "Categories",
+                  to: "/categories",
+                },
+                {
+                  title: "Age Groups",
+                  to: "/age-groups",
+                },
+                {
+                  title: "Questions",
+                  to: "/questions",
+                },
+              ]}
+            />
+          </>
+          // <>
+          //   <Link marginX={2} as={NavLink} to={"/categories"}>
+          //     Categories
+          //   </Link>
+          //   <Link marginX={2} as={NavLink} to={"/age-groups"}>
+          //     Age Groups
+          //   </Link>
+          //   <Link marginX={2} as={NavLink} to={"/questions"}>
+          //     Questions
+          //   </Link>
+          // </>
+        )}
+        {isGameCreator && (
+          <>
+            <Menu
+              title="Game Creation"
+              icon={<FaAdversal />}
+              items={[
+                {
+                  title: "Game Instances",
+                  to: "/game-instances",
+                },               
+              ]}
+            />
+          </>
+        )}
         <Spacer></Spacer>
         <IconButton
           aria-label="color-mode"
@@ -53,15 +112,13 @@ export default function Header() {
           isRound={true}
           onClick={toggleColorMode}
         ></IconButton>
-        <Menu>
-          <MenuButton>
-            <IconButton
-              ml={5}
-              aria-label="user"
-              icon={<FaUser />}
-              isRound={true}
-            ></IconButton>
-          </MenuButton>
+        <CMenu>
+          <MenuButton
+            as={IconButton}
+            isRound={true}
+            icon={<FaUser />}
+            ml={2}
+          ></MenuButton>
           <MenuList>
             <MenuItem>
               {claims.find((x) => x.property === "name")!.value as string}
@@ -69,13 +126,13 @@ export default function Header() {
             <MenuDivider></MenuDivider>
             <MenuItem
               onClick={() => {
-                logOut(updateClaims);
+                logOut(updateClaims, navigate);
               }}
             >
               Log Out
             </MenuItem>
           </MenuList>
-        </Menu>
+        </CMenu>
       </Flex>
     </>
   );

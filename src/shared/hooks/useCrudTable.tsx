@@ -2,6 +2,9 @@ import { ReactElement } from "react";
 import { FormProvider, UseFormReturn } from "react-hook-form";
 import CrudActions from "shared/components/modal/crud-modal/CrudActions";
 import CrudModal from "shared/components/modal/crud-modal/CrudModal";
+import { ProcessType } from "shared/components/Routing/Authorized";
+import { ICrudOption } from "shared/components/table/crud-table/CrudOption";
+import { IAdditionalOption } from "shared/components/table/crud-table/CrudOptions";
 import CrudTable from "shared/components/table/crud-table/CrudTable";
 import { IHeader } from "shared/components/table/TableHeader";
 import { CrudTypes } from "shared/interfaces/crud";
@@ -21,6 +24,7 @@ export interface IUseCrudTable {
     cardTitle: string;
   };
   headers: IHeader[];
+  additionalOptions?: IAdditionalOption[];
 }
 
 export default function useCrudTable({
@@ -28,6 +32,7 @@ export default function useCrudTable({
   crudComponents,
   displayProps: { displayName, caption, cardTitle },
   headers,
+  additionalOptions = []
 }: IUseCrudTable) {
   const { calls, defaultValue } = useTableProps;
   const {
@@ -108,38 +113,7 @@ export default function useCrudTable({
     //await getItem(id, formHook);
     setType(CrudTypes.Update);
   };
-  const viewMethod = async (id: string) => {
-    //setEntity(defaultValue);
-    await getItem(id, formHook);
-    setMethod(() => calls.Update);
-    setCrudModalProps({
-      ...crudModalProps,
-      modalProps: {
-        ...crudModalProps.modalProps,
-        status: true,
 
-        modalHeaderProps: {
-          title: `View ${displayName}`,
-        },
-        modalFooterProps: {
-          content: (
-            <>
-              <CrudActions
-                cancelMethod={() => {
-                  setTriggerReset(Math.random());
-                }}
-                processMethod={formHook.handleSubmit(triggerSubmit, onError)}
-                type={CrudTypes.View}
-              />
-            </>
-          ),
-        },
-      },
-      body: crudComponents.view,
-    });
-    //await getItem(id, formHook);
-    setType(CrudTypes.View);
-  };
   const deleteMethod = async (id: string) => {
     //setEntity(defaultValue);
     await getItem(id, formHook);
@@ -172,14 +146,48 @@ export default function useCrudTable({
     //await getItem(id, formHook);
     setType(CrudTypes.Delete);
   };
+  const viewMethod = async (id: string) => {
+    //setEntity(defaultValue);
+    await getItem(id, formHook);
+    setMethod(() => calls.Update);
+    setCrudModalProps({
+      ...crudModalProps,
+      modalProps: {
+        ...crudModalProps.modalProps,
+        status: true,
 
+        modalHeaderProps: {
+          title: `View ${displayName}`,
+        },
+        modalFooterProps: {
+          content: (
+            <>
+              <CrudActions
+                cancelMethod={() => {
+                  setTriggerReset(Math.random());
+                }}
+                processMethod={formHook.handleSubmit(triggerSubmit, onError)}
+                type={CrudTypes.View}
+              />
+            </>
+          ),
+        },
+      },
+      body: crudComponents.view,
+    });
+    //await getItem(id, formHook);
+    setType(CrudTypes.View);
+  };
   const component = (
     <>
       <FormProvider {...formHook}>
         <CrudTable
+          type={useTableProps.type}
           baseParam={baseParams}
           setBaseParam={setBaseParams}
           tableProps={{
+            additionalOptions,
+            type: useTableProps.type,
             baseParam: baseParams,
             setBaseParam: setBaseParams,
             tableHeaderProps: {

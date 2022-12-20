@@ -1,12 +1,16 @@
 import { AxiosResponse } from "axios";
 
 export default interface IAgentGenericCalls {
-  Items: (params:URLSearchParams) => Promise<AxiosResponse<any, any>>;
+  Items: (params: URLSearchParams) => Promise<AxiosResponse<any, any>>;
   Item: (id: string) => Promise<AxiosResponse<any, any>>;
   Create: (body: {}) => Promise<AxiosResponse<any, any>>;
-  Update: (data:{id:string, body:{}}) => Promise<AxiosResponse<any, any>>;
-  Delete: (data:{id:string}) => Promise<AxiosResponse<any, any>>;
-  Select?: (params:URLSearchParams) => Promise<AxiosResponse<any, any>>;
+  Update: (data: { id: string; body: {} }) => Promise<AxiosResponse<any, any>>;
+  Delete: (data: { id: string }) => Promise<AxiosResponse<any, any>>;
+  Select?: (params: URLSearchParams) => Promise<AxiosResponse<any, any>>;
+}
+
+export interface GameCreationAgentGenericCalls extends IAgentGenericCalls {
+  GetCategoriesForGame:(id: string) => Promise<AxiosResponse<any, any>>;
 }
 
 export interface ServerErrorResult {
@@ -19,15 +23,15 @@ export interface ServerError {
   errorMessage: string;
 }
 
-export interface ServerResponse{
+export interface ServerResponse {
   statusCode: 200 | 201 | 400 | 500 | 402;
   isSuccess: boolean;
   result: object | ServerErrorResult;
 }
 
-export interface BaseSearchParams{
-  orderBy?:string
-  searchCriteria?:string
-  pageNumber?:number
-  pageSize?:number
+export interface BaseSearchParams {
+  orderBy?: string;
+  searchCriteria?: string;
+  pageNumber?: number;
+  pageSize?: number;
 }

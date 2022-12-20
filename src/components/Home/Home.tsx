@@ -24,6 +24,7 @@ export interface HomeProps {}
 export default function Home({}: HomeProps) {
   const navigate = useNavigate();
   const { isAuthenticated } = useContext(AuthenticationContext);
+  //if(isAuthenticated) navigate("/")
   // if (!isAuthenticated) {
   //   //navigate("/login");
   //   return null;

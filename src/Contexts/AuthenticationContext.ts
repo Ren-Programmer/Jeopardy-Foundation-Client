@@ -4,6 +4,8 @@ export interface IAuth {
   claims: IClaim[];
   updateClaims: (claims: IClaim[]) => void;
   isAuthenticated: boolean
+  isCrudAdmin:boolean
+  isGameCreator:boolean
 }
 export interface IClaim {
   property: string;
@@ -13,6 +15,8 @@ export interface IClaim {
 const AuthenticationContext = createContext<IAuth>({
   claims: [],
   updateClaims: () => {},
-  isAuthenticated:false
+  isAuthenticated:false,
+  isCrudAdmin:false,
+  isGameCreator:false
 });
 export default AuthenticationContext;
