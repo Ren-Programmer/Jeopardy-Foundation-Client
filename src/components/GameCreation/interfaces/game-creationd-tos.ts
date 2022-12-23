@@ -1,17 +1,20 @@
-export interface IGameDeisgn {
+export interface IGameDeisgnDTO {
   title: string;
 }
 
-export interface IGameCategory {
+export interface IGameCategoryDTO {
   id: string;
   name: string;
+  description:string
 }
 
-export interface IGameQuestion {
+export interface IGameQuestionDTO {
   id: string;
   categoryId: string;
   questionValueId: string;
   problem: string;
   solution: string;
   value:number
+  category:string;
+  multiplier:string;
 }

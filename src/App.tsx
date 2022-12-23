@@ -3,7 +3,7 @@ import Home from "components/Home/Home";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Categories from "components/Category/Categories";
 import Dashboard from "components/Home/Dashboard/Dashboard";
-import { ToastContainer } from "react-toastify";
+// import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AuthenticationContext, {
   IAuth,
@@ -11,8 +11,10 @@ import AuthenticationContext, {
 } from "Contexts/AuthenticationContext";
 import Login from "components/Account/Login";
 import { getClaims } from "components/Account/useSecurity";
+import { createStandaloneToast } from "@chakra-ui/react";
 
 function App() {
+  
   const initialClaims: IClaim[] = [
     // {
     //   property: "UserName",
@@ -28,7 +30,7 @@ function App() {
     const roles = nClaims.find((x) => x.property === "role");
     isCrudAdmin =
       (roles?.value as string[])?.find((x) => x === "CrudAdmin") !== undefined;
-      isGameCreator =
+    isGameCreator =
       (roles?.value as string[])?.find((x) => x === "Member") !== undefined;
   }
 
@@ -37,7 +39,7 @@ function App() {
     updateClaims: setClaims,
     isAuthenticated,
     isCrudAdmin,
-    isGameCreator
+    isGameCreator,
   };
   useEffect(() => {
     console.log(claims);
@@ -46,7 +48,8 @@ function App() {
   return (
     <>
       <AuthenticationContext.Provider value={value}>
-        <ToastContainer theme="colored" position="bottom-right" />
+       
+        {/* <ToastContainer theme="colored" position="bottom-right" /> */}
         <Home />
       </AuthenticationContext.Provider>
     </>

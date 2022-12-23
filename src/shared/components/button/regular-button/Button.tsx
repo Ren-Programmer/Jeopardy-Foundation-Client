@@ -12,7 +12,7 @@ export default function Button({ info, buttonProps }: IButton) {
   
   return (
     <>
-      <CButton {...buttonProps} colorScheme={process.env.REACT_APP_COLOR_SCHEME}>{info}</CButton>
+      <CButton {...buttonProps}>{info}</CButton>
       {/* <button
       {...buttonProps}
       >{info}</button> */}

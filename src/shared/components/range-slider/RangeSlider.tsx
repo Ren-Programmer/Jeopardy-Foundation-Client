@@ -82,7 +82,7 @@ export default function RangeSlider({
         //{...otherProps}
         //{...props}
         //{...props.register("ageGroup")}
-        colorScheme={"messenger"}
+        colorScheme={process.env.REACT_APP_COLOR_SCHEME}
         aria-label={["min", "max"]}
         min={minVal.val}
         max={maxVal.val}

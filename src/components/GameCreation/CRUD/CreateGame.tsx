@@ -1,2 +1,5 @@
 export interface ICreateGame{}
-export default function CreateGame({}:ICreateGame){return <></>}
+export default function CreateGame({}:ICreateGame){return <>
+
+
+</>}

@@ -10,7 +10,7 @@ export interface ICrudActions {
   type: CrudTypes;
   processMethod: () => void;
 }
-
+const scheme = process.env.REACT_APP_COLOR_SCHEME;
 export default function CrudActions({
   cancelMethod,
   type,
@@ -24,7 +24,7 @@ export default function CrudActions({
     case CrudTypes.Create: {
       button = <Button  info="Create" buttonProps={{
         ...buttonProps,
-        colorScheme:"messenger"
+        colorScheme:scheme
       }} />;
       break;
     }
@@ -32,14 +32,14 @@ export default function CrudActions({
       // button = <SuccessButton buttonProps={buttonProps} info="Update" />;
       button = <Button  info="Update" buttonProps={{
         ...buttonProps,
-        colorScheme:"messenger"
+        colorScheme:scheme
       }} />;
       break;
     }
     case CrudTypes.Delete: {
       button = <Button  info="Delete" buttonProps={{
         ...buttonProps,
-        colorScheme:"messenger"
+        colorScheme:scheme
       }} />;
       break;
     }
@@ -61,9 +61,11 @@ export default function CrudActions({
               info="Reset"
             /> */}
             <Button
+            
               info="Reset"
               buttonProps={{
                 onClick: cancelMethod,
+                colorScheme:"gray"
               }}
             />
           </div>

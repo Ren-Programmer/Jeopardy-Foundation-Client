@@ -1,27 +1,29 @@
-import { Box, BoxProps, Flex } from "@chakra-ui/react";
+import { Box, BoxProps, Button, ButtonProps, Flex } from "@chakra-ui/react";
 
-export interface IGameBox {
-  value: string;
-  boxProps: BoxProps;
+export interface IGameBox extends ButtonProps {
+  // value: string;
+  // buttonProps: ButtonProps;
 }
-export default function GameBox({ value, boxProps }: IGameBox) {
+export default function GameBox(props : IGameBox) {  
   return (
     <>
-      <Flex 
-        {...{          
-          textAlign:"center",
-          justifyItems:"center",
-          justifyContent:"center",
+      <Flex
+        {...{
+          textAlign: "center",
+          justifyItems: "center",
+          justifyContent: "center",
           h: "70px",
           alignItems: "center",
           alignContent: "center",
           //boxShadow:"md",
-          bg:"telegram.400"
+         
         }}
-
-        {...boxProps}
+       
       >
-        {value}
+        <Button
+        {...props}
+        w="100%"  h="70px" boxShadow={"lg"} 
+        >{props.value}</Button>
       </Flex>
     </>
   );

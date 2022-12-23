@@ -35,7 +35,7 @@ export default function Body() {
         <Route
           path="/categories"
           element={
-            <Authorized element={<Categories />} authenticationType={ProcessType.GeneralCrud} />
+            <Authorized element={<Categories />} authenticationType={ProcessType.GameCreation} />
           }
         />
         <Route

@@ -1,14 +1,13 @@
 import { BoxProps } from "@chakra-ui/react";
-import GameBox from "../general/GameBox";
+import GameBox, { IGameBox } from "../general/GameBox";
 
 export interface IGameValue {
-  value: string;
-  bgProps?:BoxProps
+  props:IGameBox
 }
-export default function GameValue({ value,bgProps = {} }: IGameValue) {
+export default function GameValue({props}: IGameValue) {
   return (
     <>
-      <GameBox value={value} boxProps={bgProps} />
+      <GameBox  {...props}/>
     </>
   );
 }

@@ -5,34 +5,35 @@ import IAgentGenericCalls, {
   ServerResponse,
 } from "api/interfaces";
 import axios, { AxiosResponse } from "axios";
-import { useEffect, useMemo, useState } from "react";
+import AppContext from "Contexts/AppContext";
+import { useContext, useEffect, useMemo, useState } from "react";
 import {
   FieldValues,
   SubmitErrorHandler,
   useForm,
   UseFormReturn,
 } from "react-hook-form";
-import { toast } from "react-toastify";
+// import { toast } from "react-toastify";
 import { ICrudModal } from "shared/components/modal/crud-modal/CrudModal";
 import { PaginationProps } from "shared/components/pagination/Pagination";
 import { ProcessType } from "shared/components/Routing/Authorized";
 import { ICrudOption } from "shared/components/table/crud-table/CrudOption";
+import { useToast } from "shared/components/toast/useToast";
 import { CrudTypes } from "shared/interfaces/crud";
 
 export interface IUseTable {
   calls: IAgentGenericCalls;
   defaultValue: any;
   onMethod: (data: any) => Promise<AxiosResponse<any, any>>;
-  type:ProcessType
-  
+  type: ProcessType;
 }
 
 export default function useTable<Create extends FieldValues, Update, Delete>({
   calls,
   defaultValue,
   onMethod,
-  
 }: IUseTable) {
+  const { ErrorToast, SuccessToast } = useToast();
   const [entity, setEntity] = useState(defaultValue);
   const [type, setType] = useState<CrudTypes>(CrudTypes.Create);
   const [itemsResponse, setItemsResponse] = useState<{
@@ -80,7 +81,7 @@ export default function useTable<Create extends FieldValues, Update, Delete>({
     },
     body: null,
   });
-  useEffect(() => { 
+  useEffect(() => {
     async function oo() {
       return await calls.Items(getSearchParams());
     }
@@ -104,7 +105,8 @@ export default function useTable<Create extends FieldValues, Update, Delete>({
     onSubmit(data);
   }, [data]);
 
-  useEffect(() => {console.log(entity)
+  useEffect(() => {
+    console.log(entity);
     formHook.reset(entity);
   }, [entity, triggerReset]);
 
@@ -134,8 +136,13 @@ export default function useTable<Create extends FieldValues, Update, Delete>({
   };
 
   const onError: SubmitErrorHandler<any> = () => {
-    toast.error("Please correct the errors on the form!!");
+    // toast.error("Please correct the errors on the form!!");
+    ErrorToast({
+      title: "Error",
+      description: "Please correct the errors on the form",
+    });
   };
+  
   function addServerErrors(serverErrorResult: ServerErrorResult) {
     serverErrorResult.errors.forEach((error) => {
       formHook.setError(error.propertyName.toLowerCase(), {
@@ -171,7 +178,8 @@ export default function useTable<Create extends FieldValues, Update, Delete>({
         }
       }
 
-      toast.success("Process Completed");
+      // toast.success("Process Completed");
+      SuccessToast({ description: "Process was completed" });
     } catch (error: any) {
       // if(!error.response){
       //   toast.error("Process cannot be done at this time");
@@ -183,15 +191,24 @@ export default function useTable<Create extends FieldValues, Update, Delete>({
       switch (response.statusCode) {
         case 400: {
           addServerErrors(response.result as ServerErrorResult);
-          toast.error("Please correct the errors on the form");
+          //toast.error("Please correct the errors on the form");
+          ErrorToast({
+            description: "Please correct the errors on the form",
+          });
           break;
         }
         case 500: {
-          toast.error("Process cannot be done at this time");
+          // toast.error("Process cannot be done at this time");
+          ErrorToast({
+            description: "Process cannot be done at this time",
+          });
           break;
         }
         default: {
-          toast.error("Please correct the errors on the form");
+          // toast.error("Please correct the errors on the form");
+          ErrorToast({
+            description: "Please correct the errors on the form",
+          });
           break;
         }
       }

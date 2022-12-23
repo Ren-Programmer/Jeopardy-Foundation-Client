@@ -1,22 +1,65 @@
 import { Stack } from "@chakra-ui/react";
 import GameValue from "../game-value/GameValue";
-import { IGameCategory, IGameQuestion } from "../interfaces/game-creationd-tos";
+import {
+  IGameCategoryDTO,
+  IGameQuestionDTO,
+} from "../interfaces/game-creationd-tos";
+import GameCategory from "./GameCategory";
+import GameQuestion from "./GameQuestion";
 
 export interface IGameBlock {
-  category: IGameCategory;
-  questions: IGameQuestion[];
+  category: IGameCategoryDTO;
+  questions: IGameQuestionDTO[];
+  onQuestionOpen: (data: IGameQuestionDTO) => void;
+  onCategoryOpen: (data: IGameCategoryDTO) => void;
 }
-export default function GameBlock({ category, questions }: IGameBlock) {
+export default function GameBlock({
+  category,
+  questions,
+  onCategoryOpen,
+  onQuestionOpen,
+}: IGameBlock) {
   const actualQuestions = questions
     .filter((x) => x.categoryId === category.id)
     .sort((a, b) => a.value - b.value);
   return (
     <>
       <Stack>
-        <GameValue value={category.name} bgProps={{}} />
+        <GameCategory
+          gameValueProps={{
+            value: category.name? category.name:"Click to Provide",
+            variant: "gameCategory",
+          }}
+          onOpen={onCategoryOpen}
+          category={category}
+        />
 
         {actualQuestions.map((value, index) => {
-          return <GameValue key={index} value={value.problem} />;
+          if (value.solution && value.problem) {
+            return (
+              <GameQuestion
+                key={index}
+                gameValueProps={{
+                  value: value.value,
+                  variant: "gameQuestionCompleteCell",
+                }}
+                onOpen={onQuestionOpen}
+                question={value}
+              />
+            );
+          } else {
+            return (
+              <GameQuestion
+                key={index}
+                gameValueProps={{
+                  value: value.value,
+                  variant: "gameCell",
+                }}
+                onOpen={onQuestionOpen}
+                question={value}
+              />
+            );
+          }
         })}
       </Stack>
     </>

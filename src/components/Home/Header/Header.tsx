@@ -58,7 +58,7 @@ export default function Header() {
           ></IconButton>
         </Tooltip>
 
-        {isCrudAdmin && (
+        {/* {isCrudAdmin && ( */}
           <>
             <Menu
               title="General"
@@ -79,18 +79,8 @@ export default function Header() {
               ]}
             />
           </>
-          // <>
-          //   <Link marginX={2} as={NavLink} to={"/categories"}>
-          //     Categories
-          //   </Link>
-          //   <Link marginX={2} as={NavLink} to={"/age-groups"}>
-          //     Age Groups
-          //   </Link>
-          //   <Link marginX={2} as={NavLink} to={"/questions"}>
-          //     Questions
-          //   </Link>
-          // </>
-        )}
+          
+        {/* )} */}
         {isGameCreator && (
           <>
             <Menu

@@ -1,24 +1,19 @@
-import { TextareaProps } from "@chakra-ui/react";
 import { UseFormReturn } from "react-hook-form";
 import FormControl from "shared/components/FormControl";
-import CustomTextArea from "shared/components/input/text-area/CustomTextArea";
 import TextArea from "shared/components/input/text-area/TextArea";
 
-export interface ICategoryDescription {
+export interface IGameCategoryDescription {
   formHook: UseFormReturn<any, any>;
-  additionalInputProps?: TextareaProps
 }
-
-export default function CategoryDescription({
+export default function GameCategoryDescription({
   formHook,
-  additionalInputProps,
-}: ICategoryDescription) {
+}: IGameCategoryDescription) {
   const {
     register,
     formState: { errors },
   } = formHook;
   return (
-    <>    
+    <>
       <FormControl
         errorMessage={errors.description?.message as string | undefined}
         label="Category Description"
@@ -29,15 +24,14 @@ export default function CategoryDescription({
               props={{
                 id: "description",
                 ...register("description", {
-                  minLength: {
-                    value: 10,
-                    message: "Description needs to be at least 10 characters long",
-                  },
+                  // minLength: {
+                  //   value: 10,
+                  //   message:
+                  //     "Description needs to be at least 10 characters long",
+                  // },
                 }),
-                ...additionalInputProps
               }}
             />
-           
           </>
         }
       />

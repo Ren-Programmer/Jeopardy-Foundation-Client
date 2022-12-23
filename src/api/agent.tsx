@@ -1,15 +1,21 @@
 import axios, { AxiosResponse, AxiosError } from "axios";
 import { ICreateQuestionDTO } from "components/Question/interfaces/question-dtos";
-import { toast } from "react-toastify";
+import AppContext from "Contexts/AppContext";
+import { useContext } from "react";
 import { PaginationProps } from "shared/components/pagination/Pagination";
 import { AsyncKeyword } from "typescript";
-import IAgentGenericCalls, { GameCreationAgentGenericCalls, GameQuestionAgentGenericCalls } from "./interfaces";
+import IAgentGenericCalls, {
+  GameCategoryAgentGenericCalls,
+  GameCreationAgentGenericCalls,
+  GameQuestionAgentGenericCalls,
+  GameQuestionValueAgentGenericCalls,
+} from "./interfaces";
+import useAgent from "./useAgent";
 
 const sleep = () => new Promise((resolve) => setTimeout(resolve, 1000));
-
 // const securedApiURL = process.env.API_URL_S;
 axios.defaults.baseURL = "https://localhost:7271/api/";
-
+//const { toast } = useContext(AppContext);
 const requestBody = (response: AxiosResponse) => response;
 //const errorRequestBody = (error: AxiosError<any, any>) => error.response!;
 
@@ -47,9 +53,14 @@ axios.interceptors.response.use(
       //   break;
 
       case 500:
-        toast.error(
-          "Process cannot be completed at this time, please contact IT, or try again later"
-        );
+        // GenericToast(toast, {
+        //   title: "Error",
+        //   description:
+        //     "Process cannot be completed at this time, please contact IT, or try again later",
+        //   status: "error",
+        //   position: "top",
+        //   duration: 5000,
+        // });
         break;
       default:
         break;
@@ -177,12 +188,9 @@ const GameCreation: GameCreationAgentGenericCalls = {
   Delete: function (data: { id: string }): Promise<AxiosResponse<any, any>> {
     throw new Error("Function not implemented.");
   },
-  GetCategoriesForGame: (id:string)=>{
-    return requests.get(`GameCreationAPI/GetCategoriesForGame/${id}`);
-  }
 };
 
-const QuestionValue: IAgentGenericCalls = {
+const GameQuestionValue: GameQuestionValueAgentGenericCalls = {
   Items: (params: URLSearchParams) => {
     return requests.get("QuestionValueAPI", params);
   },
@@ -201,11 +209,16 @@ const QuestionValue: IAgentGenericCalls = {
   Delete: function (data: { id: string }): Promise<AxiosResponse<any, any>> {
     throw new Error("Function not implemented.");
   },
+  GetQuestionValuesForGame: function (
+    id: string
+  ): Promise<AxiosResponse<any, any>> {
+    return requests.get(`GameQuestionValueAPI/GetQuestionValuesForGame/${id}`);
+  },
 };
 
-const GameQuestion:GameQuestionAgentGenericCalls ={
+const GameQuestion: GameQuestionAgentGenericCalls = {
   GetQuestionsForGame: function (id: string): Promise<AxiosResponse<any, any>> {
-    return requests.get(`GameCreationAPI/GetQuestionsForGame/${id}`);
+    return requests.get(`GameQuestionAPI/GetQuestionsForGame/${id}`);
   },
   Items: function (params: URLSearchParams): Promise<AxiosResponse<any, any>> {
     throw new Error("Function not implemented.");
@@ -216,13 +229,38 @@ const GameQuestion:GameQuestionAgentGenericCalls ={
   Create: function (body: {}): Promise<AxiosResponse<any, any>> {
     throw new Error("Function not implemented.");
   },
-  Update: function (data: { id: string; body: {}; }): Promise<AxiosResponse<any, any>> {
+  Update: function (data: {
+    id: string;
+    body: {};
+  }): Promise<AxiosResponse<any, any>> {
+    return requests.put(`GameQuestionAPI/${data.id}`, data.body);
+  },
+  Delete: function (data: { id: string }): Promise<AxiosResponse<any, any>> {
     throw new Error("Function not implemented.");
   },
-  Delete: function (data: { id: string; }): Promise<AxiosResponse<any, any>> {
+};
+
+const GameCategory: GameCategoryAgentGenericCalls = {
+  GetCategoriesForGame: (id: string) => {
+    return requests.get(`GameCategoryAPI/GetCategoriesForGame/${id}`);
+  },
+  Items: function (params: URLSearchParams): Promise<AxiosResponse<any, any>> {
     throw new Error("Function not implemented.");
-  }
-}
+  },
+  Item: function (id: string): Promise<AxiosResponse<any, any>> {
+    throw new Error("Function not implemented.");
+  },
+  Create: function (body: {}): Promise<AxiosResponse<any, any>> {
+    throw new Error("Function not implemented.");
+  },
+  Update: function (data: any): Promise<AxiosResponse<any, any>> {
+    console.log(data);
+    return requests.put(`GameCategoryAPI/${data.id}`, data.body);
+  },
+  Delete: function (data: { id: string }): Promise<AxiosResponse<any, any>> {
+    throw new Error("Function not implemented.");
+  },
+};
 
 const agent = {
   Category,
@@ -231,7 +269,8 @@ const agent = {
   Helper,
   Account,
   GameCreation,
-  QuestionValue,
-  GameQuestion
+  GameQuestionValue,
+  GameQuestion,
+  GameCategory,
 };
 export default agent;

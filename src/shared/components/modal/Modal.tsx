@@ -21,6 +21,7 @@ export interface IModal {
   modalHeaderProps: IModalHeader;
   modalBodyProps: IModalBody;
   modalFooterProps: IModalFooter;
+  size?:"md" | "sm" | "lg" | "xl" | "2xl" | (string & {}) | "xs" | "3xl" | "4xl" | "5xl" | "6xl" | "full"
 }
 
 export default function Modal({
@@ -29,11 +30,12 @@ export default function Modal({
   modalHeaderProps,
   modalBodyProps,
   modalFooterProps,
+  size="xl"
 }: IModal) {
   const { colorMode, toggleColorMode } = useColorMode();
   return (
     <>
-      <CModal closeOnOverlayClick={false} isOpen={status} onClose={onClose}
+      <CModal closeOnOverlayClick={false} isOpen={status} onClose={onClose} size={size}
       scrollBehavior="inside"
       >
         <ModalOverlay></ModalOverlay>
