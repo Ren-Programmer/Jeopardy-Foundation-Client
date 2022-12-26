@@ -5,10 +5,14 @@ import { FormProvider, useForm, useFormContext } from "react-hook-form";
 import CrudActions from "shared/components/modal/crud-modal/CrudActions";
 import Modal, { IModal } from "shared/components/modal/Modal";
 import { CrudTypes } from "shared/interfaces/crud";
-import { IGameCategoryDTO, IGameQuestionDTO } from "../interfaces/game-creationd-tos";
+import {
+  IGameCategoryDTO,
+  IGameQuestionDTO,
+} from "../interfaces/game-creationd-tos";
 import { GameCreationModalState } from "../useGameCreation";
 import GameCategoryBody from "./GameCategoryBody";
 import GameQuestionBody from "./GameQuestionBody";
+import GameQuestionValueBody from "./HTML/Question/GameQuestionValueBody";
 
 export interface IGameCreationModal {
   // status: boolean;
@@ -42,12 +46,19 @@ export default function GameCreationModal({
             <>
               {modalProps.submitType.type === "question" && (
                 <>
-                  <GameQuestionBody data={modalProps.data as IGameQuestionDTO} />
+                  <GameQuestionBody
+                    data={modalProps.data as IGameQuestionDTO}
+                  />
                 </>
               )}
-               {modalProps.submitType.type === "category" && (
+              {modalProps.submitType.type === "category" && (
                 <>
                   <GameCategoryBody />
+                </>
+              )}
+              {modalProps.submitType.type === "questionValue" && (
+                <>
+                  <GameQuestionValueBody />
                 </>
               )}
             </>

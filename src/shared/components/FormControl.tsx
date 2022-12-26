@@ -8,7 +8,7 @@ import {
 import { ReactElement, useEffect, useState } from "react";
 
 export interface IFormControl {
-  label: string;
+  label: string|ReactElement;
   input: ReactElement;
   errorMessage?: string;
   placeHolder: string;

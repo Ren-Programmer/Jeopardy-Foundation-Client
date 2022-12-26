@@ -1,5 +1,6 @@
 export interface IGameDeisgnDTO {
   title: string;
+  completed:number;
 }
 
 export interface IGameCategoryDTO {

@@ -24,14 +24,14 @@ import {
 } from "./interfaces/game-creationd-tos";
 
 interface modalBodyInfoProps {
-  data: IGameQuestionDTO | IGameCategoryDTO;
+  data: IGameQuestionDTO | IGameCategoryDTO | IQuestionValue;
   type: "question" | "category" | "questionValue";
   method: (data: any) => Promise<AxiosResponse<any, any>>;
 }
 
 export interface GameCreationModalState {
   status: boolean;
-  data?: IGameQuestionDTO | IGameCategoryDTO;
+  data?: IGameQuestionDTO | IGameCategoryDTO | IQuestionValue;
   submitType: ISubmtProps;
   method: (data: any) => Promise<AxiosResponse<any, any>>;
 }
@@ -56,7 +56,7 @@ export default function useGameCreation() {
   const initial: IGameQuestionState = {
     questions: [],
     categories: [],
-    game: { title: "" },
+    game: { title: "", completed: 0 },
     questionValues: [],
   };
 
@@ -86,9 +86,6 @@ export default function useGameCreation() {
     console.log(questions);
   }, [questions]);
 
-  useEffect(() => {
-    console.log(modalProps.data);
-  }, [modalProps]);
 
   const formHook = useForm({
     defaultValues: useMemo(() => {
@@ -110,6 +107,7 @@ export default function useGameCreation() {
       | "updateCategory"
       | "setCategories"
       | "setGame"
+      | "updateQuestionValue"
       | "setQuestionValues" = "setQuestionValues";
     switch (modalProps.submitType.type) {
       case "question": {
@@ -122,10 +120,16 @@ export default function useGameCreation() {
         dispatchName = "updateCategory";
         break;
       }
+      case "questionValue": {
+        name = "Question Value";
+        dispatchName = "updateQuestionValue";
+        break;
+      }
     }
     const processId = ProcessingToast();
     setTimeout(() => {
-      modalProps.method({ id: data.id, body: data })
+      modalProps
+        .method({ id: data.id, body: data })
         .then((x) => {
           toast?.close(processId);
           SuccessToast({
@@ -217,6 +221,16 @@ export default function useGameCreation() {
         } as modalBodyInfoProps,
       });
     },
+    onQuestionValueOpen: (data: IQuestionValue) => {
+      modalDispatch({
+        type: "modalBodyInfo",
+        data: {
+          data,
+          type: "questionValue",
+          method: agent.GameQuestionValue.Update,
+        } as modalBodyInfoProps,
+      });
+    },
     onSubmit,
     onError,
     onCancel,
@@ -267,7 +281,7 @@ function questionReducer(
         questions: [...questions],
       };
     }
-    case "updateCategory": {      
+    case "updateCategory": {
       const category = action.data as IGameCategoryDTO;
       let categories = [...state.categories];
       let actualCategory = categories.find((x) => x.id === category.id)!;
@@ -276,13 +290,32 @@ function questionReducer(
       actualCategory = {
         ...actualCategory,
         name: category.name,
-        description:category.description
+        description: category.description,
       };
 
       categories[index] = actualCategory;
       return {
         ...state,
         categories: [...categories],
+      };
+    }
+    case "updateQuestionValue": {
+      const questionValue = action.data as IQuestionValue;
+      let questionValues = [...state.questionValues];
+      let actualQuestionValue = questionValues.find(
+        (x) => x.id === questionValue.id
+      )!;
+      let index = questionValues.indexOf(actualQuestionValue);
+
+      actualQuestionValue = {
+        ...actualQuestionValue,
+        value: questionValue.value,
+      };
+
+      questionValues[index] = actualQuestionValue;
+      return {
+        ...state,
+        questionValues: [...questionValues],
       };
     }
     case "setCategories": {
@@ -351,7 +384,8 @@ export interface GameQuestionStateAction {
     | "setCategories"
     | "setGame"
     | "updateCategory"
-    | "setQuestionValues";
+    | "setQuestionValues"
+    | "updateQuestionValue";
 
   data: any;
 }

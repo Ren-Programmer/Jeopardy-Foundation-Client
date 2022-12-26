@@ -8,62 +8,37 @@ import {
   DrawerFooter,
   Button,
   useDisclosure,
+  Text,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { IQuestionsDTO } from "components/Question/interfaces/question-dtos";
+import Questions from "components/Question/Questions";
+import GameCreationContext from "Contexts/GameCreationContext";
+import { useContext, useEffect, useMemo, useState } from "react";
 
-export interface IGameQuestionSource {
-  isOpen: boolean;
-  onOpen: () => void;
-  onClose: () => void;
-}
-export default function GameQuestionSource({
-  isOpen,
-  onClose,
-  onOpen,
-}: IGameQuestionSource) {
-  const [loading, setLoading] = useState(false);
-  const [questions, setQuestions] = useState<string[]>([]);
+export interface IGameQuestionSource {}
+export default function GameQuestionSource({}: IGameQuestionSource) {
+  const {channel} = useContext(GameCreationContext);
+  const [question, setQuestion] = useState<IQuestionsDTO>();
+
+  useEffect(() => {
+    if (question) {
+      channel.postMessage({
+        question,
+      });     
+      window.close();
+      return channel.close;
+    }
+  }, [question]);
+
   return (
     <>
-      {" "}
-      <Drawer
-        closeOnOverlayClick={false}
-        isOpen={isOpen}
-        placement="left"
-        onClose={onClose}
-      >
-        {/* <DrawerOverlay /> */}
-        <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerHeader>
-            Please enter Parameters for your question Search
-          </DrawerHeader>
-
-          <DrawerBody>
-            <Input placeholder="Type here..." />
-          </DrawerBody>
-
-          <DrawerFooter>
-            <Button
-              isLoading={loading}
-              variant="outline"
-              mr={3}
-              onClick={onClose}
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={() => {
-                setLoading(true);
-              }}
-              colorScheme="blue"
-              isLoading={loading}
-            >
-              Search
-            </Button>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
+      <Text>
+        Please search for tghe question beloow, and select by double clicking on
+        the row
+      </Text>
+      <Questions
+        tableRowDoubleClick={(data: IQuestionsDTO) => setQuestion(data)}
+      />
     </>
   );
 }

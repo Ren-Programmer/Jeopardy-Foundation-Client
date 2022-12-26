@@ -31,6 +31,7 @@ export interface ITable {
   setBaseParam: React.Dispatch<React.SetStateAction<BaseSearchParams>>;
   type: ProcessType;
   additionalOptions: IAdditionalOption[];
+  onDoubleClick?:(data:any)=>void
 }
 
 export default function Table({
@@ -46,6 +47,7 @@ export default function Table({
   setBaseParam,
   type,
   additionalOptions,
+  onDoubleClick
 }: ITable) {
   return (
     <>
@@ -71,6 +73,7 @@ export default function Table({
                     deleteMethod={deleteMethod}
                     tableHeaderProps={tableHeaderProps}
                     data={data}
+                    onDoubleClick={onDoubleClick}
                   />
                 </CTable>
               </TableContainer>

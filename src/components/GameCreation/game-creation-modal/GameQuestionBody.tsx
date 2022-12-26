@@ -1,5 +1,7 @@
 import { HStack, Stack } from "@chakra-ui/react";
-import { useEffect } from "react";
+import { IQuestionsDTO } from "components/Question/interfaces/question-dtos";
+import GameCreationContext from "Contexts/GameCreationContext";
+import { useContext, useEffect } from "react";
 import { useForm, useFormContext } from "react-hook-form";
 import CustomTextArea from "shared/components/input/text-area/CustomTextArea";
 import { IGameQuestionDTO } from "../interfaces/game-creationd-tos";
@@ -14,9 +16,16 @@ export interface IGameQuestionBody {
 }
 export default function GameQuestionBody({ data }: IGameQuestionBody) {
   const formHook = useFormContext();
+  const { channel } = useContext(GameCreationContext);
+
   useEffect(() => {
-    console.log(data);
-  }, [data]);
+    channel.addEventListener("message", (e: any) => {
+      const question = e.data.question as IQuestionsDTO;
+      formHook.setValue("problem", question.problem);
+      formHook.setValue("solution", question.solution);
+    });
+  }, []);
+
   return (
     <>
       <Stack>

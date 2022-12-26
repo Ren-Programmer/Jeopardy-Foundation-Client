@@ -26,10 +26,7 @@ export default function GameBlock({
     <>
       <Stack>
         <GameCategory
-          gameValueProps={{
-            value: category.name? category.name:"Click to Provide",
-            variant: "gameCategory",
-          }}
+          gameValueProps={{}}
           onOpen={onCategoryOpen}
           category={category}
         />
@@ -38,11 +35,9 @@ export default function GameBlock({
           if (value.solution && value.problem) {
             return (
               <GameQuestion
+                variant="gameQuestionCompleteCell"
                 key={index}
-                gameValueProps={{
-                  value: value.value,
-                  variant: "gameQuestionCompleteCell",
-                }}
+                gameValueProps={{}}
                 onOpen={onQuestionOpen}
                 question={value}
               />
@@ -50,11 +45,9 @@ export default function GameBlock({
           } else {
             return (
               <GameQuestion
+                variant="gameCell"
                 key={index}
-                gameValueProps={{
-                  value: value.value,
-                  variant: "gameCell",
-                }}
+                gameValueProps={{}}
                 onOpen={onQuestionOpen}
                 question={value}
               />

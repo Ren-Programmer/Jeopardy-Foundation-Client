@@ -12,6 +12,7 @@ import Authorized, { ProcessType } from "shared/components/Routing/Authorized";
 import Redirection from "shared/components/Routing/Redirection";
 import Dashboard from "../Dashboard/Dashboard";
 import "./Body.css";
+import GameQuestionSource from "components/GameCreation/game-creation-modal/HTML/Question/GameQuestionSource";
 export default function Body() {
   const { isAuthenticated } = useContext(AuthenticationContext);
 
@@ -29,25 +30,43 @@ export default function Body() {
 
   return (
     <>
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
+      <Routes >
+        <Route path="/" element={<Dashboard />}  />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route
           path="/categories"
           element={
-            <Authorized element={<Categories />} authenticationType={ProcessType.GameCreation} />
+            <Authorized
+              element={<Categories />}
+              authenticationType={ProcessType.GameCreation}
+            />
           }
         />
         <Route
           path="/age-groups"
           element={
-            <Authorized element={<AgeGroups />} authenticationType={ProcessType.GeneralCrud} />
+            <Authorized
+              element={<AgeGroups />}
+              authenticationType={ProcessType.GeneralCrud}
+            />
+          }
+        />
+        <Route
+          path="/globalQuestionSearch"
+          element={
+            <Authorized
+              element={<GameQuestionSource />}
+              authenticationType={ProcessType.GameCreation}
+            />
           }
         />
         <Route
           path="/questions"
           element={
-            <Authorized element={<Questions />} authenticationType={ProcessType.GeneralCrud} />
+            <Authorized
+              element={<Questions />}
+              authenticationType={ProcessType.GeneralCrud}
+            />
           }
         />
         <Route
@@ -60,10 +79,13 @@ export default function Body() {
             />
           }
         />
-         <Route
+        <Route
           path="/game-instances"
           element={
-            <Authorized element={<GameCreations />} authenticationType={ProcessType.GameCreation} />
+            <Authorized
+              element={<GameCreations />}
+              authenticationType={ProcessType.GameCreation}
+            />
           }
         />
         <Route

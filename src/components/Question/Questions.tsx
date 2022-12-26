@@ -9,8 +9,10 @@ import { Badge, BreadcrumbLink } from "@chakra-ui/react";
 import { QuestionDifficulty } from "./interfaces/question-dtos";
 import { ProcessType } from "shared/components/Routing/Authorized";
 
-export interface IQuestions {}
-export default function Questions({}: IQuestions) {
+export interface IQuestions {
+  tableRowDoubleClick?:(data:any)=>void
+}
+export default function Questions({tableRowDoubleClick}: IQuestions) {
   const defaultValue = {
     problem: "",
     solution: "",
@@ -74,6 +76,7 @@ export default function Questions({}: IQuestions) {
       cardTitle: "Questions",
     },
     headers,
+    onDoubleClick:tableRowDoubleClick
   });
 
   return <> {component()}</>;

@@ -177,13 +177,10 @@ const GameCreation: GameCreationAgentGenericCalls = {
     return requests.get(`GameCreationAPI/${id}`);
   },
   Create: function (body: {}): Promise<AxiosResponse<any, any>> {
-    throw new Error("Function not implemented.");
+    return requests.post("GameCreationAPI", body);
   },
-  Update: function (data: {
-    id: string;
-    body: {};
-  }): Promise<AxiosResponse<any, any>> {
-    throw new Error("Function not implemented.");
+  Update: function (data:any): Promise<AxiosResponse<any, any>> {
+    return requests.put(`GameCreationAPI/${data.id}`, data);
   },
   Delete: function (data: { id: string }): Promise<AxiosResponse<any, any>> {
     throw new Error("Function not implemented.");
@@ -200,11 +197,8 @@ const GameQuestionValue: GameQuestionValueAgentGenericCalls = {
   Create: function (body: {}): Promise<AxiosResponse<any, any>> {
     throw new Error("Function not implemented.");
   },
-  Update: function (data: {
-    id: string;
-    body: {};
-  }): Promise<AxiosResponse<any, any>> {
-    throw new Error("Function not implemented.");
+  Update: function (data: any): Promise<AxiosResponse<any, any>> {
+    return requests.put(`GameQuestionValueAPI/${data.id}`, data.body);
   },
   Delete: function (data: { id: string }): Promise<AxiosResponse<any, any>> {
     throw new Error("Function not implemented.");

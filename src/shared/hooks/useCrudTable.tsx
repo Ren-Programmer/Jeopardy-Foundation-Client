@@ -25,6 +25,7 @@ export interface IUseCrudTable {
   };
   headers: IHeader[];
   additionalOptions?: IAdditionalOption[];
+  onDoubleClick?:(data:any)=>void
 }
 
 export default function useCrudTable({
@@ -32,7 +33,8 @@ export default function useCrudTable({
   crudComponents,
   displayProps: { displayName, caption, cardTitle },
   headers,
-  additionalOptions = []
+  additionalOptions = [],
+  onDoubleClick
 }: IUseCrudTable) {
   const { calls, defaultValue } = useTableProps;
   const {
@@ -186,6 +188,7 @@ export default function useCrudTable({
           baseParam={baseParams}
           setBaseParam={setBaseParams}
           tableProps={{
+            onDoubleClick,
             additionalOptions,
             type: useTableProps.type,
             baseParam: baseParams,

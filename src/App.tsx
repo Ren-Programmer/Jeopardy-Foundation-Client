@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import Home from "components/Home/Home";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Categories from "components/Category/Categories";
@@ -21,6 +21,8 @@ function App() {
     //   value: "Renaldo Davis",
     // },
   ];
+  
+
   const nClaims = getClaims();
   const [claims, setClaims] = useState<IClaim[]>(nClaims);
   const isAuthenticated = claims.length > 0;
@@ -47,9 +49,8 @@ function App() {
 
   return (
     <>
-      <AuthenticationContext.Provider value={value}>
-       
-        {/* <ToastContainer theme="colored" position="bottom-right" /> */}
+      <AuthenticationContext.Provider value={value}>             
+        
         <Home />
       </AuthenticationContext.Provider>
     </>

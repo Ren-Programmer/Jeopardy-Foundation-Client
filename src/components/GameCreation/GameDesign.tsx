@@ -39,6 +39,7 @@ export default function GameDesign({}: IGameDesign) {
     onError,
     onSubmit,
     onCancel,
+    onQuestionValueOpen
   } = useGameCreation();
 
   if (loading) {
@@ -60,7 +61,7 @@ export default function GameDesign({}: IGameDesign) {
 
           <Grid templateColumns={"1fr repeat(5,4fr)"} gap={2}>
             <GridItem w="100%">
-              <GameValues values={questionValues} />
+              <GameValues values={questionValues} onOpen={onQuestionValueOpen} />
             </GridItem>
             {categories.map((category) => {
               return (

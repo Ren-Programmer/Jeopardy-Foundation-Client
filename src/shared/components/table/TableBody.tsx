@@ -14,6 +14,7 @@ export interface ITableBody {
   deleteMethod: (id: string) => void;
   type: ProcessType;
   additionalOptions: IAdditionalOption[];
+  onDoubleClick?: (data: any) => void;
   //renderMethod?: () => ReactElement;
 }
 
@@ -25,6 +26,7 @@ export default function TableBody({
   deleteMethod,
   type,
   additionalOptions,
+  onDoubleClick,
 }: //renderMethod,
 ITableBody) {
   const { headers, optionsStatus } = tableHeaderProps;
@@ -44,7 +46,13 @@ ITableBody) {
               //if(optionsElement) optionsElement.props.id = item.id;
               return (
                 <Fragment key={item.id}>
-                  <Tr>
+                  <Tr
+                    onDoubleClick={() =>
+                      onDoubleClick !== undefined
+                        ? onDoubleClick!(item)
+                        : () => {}
+                    }
+                  >
                     {headers
                       .sort((a, b) => a.order - b.order)
                       .map((header) => {
