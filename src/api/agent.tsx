@@ -1,12 +1,15 @@
 import axios, { AxiosResponse, AxiosError } from "axios";
+import { PlayGameInstanceDTO } from "components/GameInstance/interfaces/game-instance-dtos";
 import { ICreateQuestionDTO } from "components/Question/interfaces/question-dtos";
 import AppContext from "Contexts/AppContext";
 import { useContext } from "react";
 import { PaginationProps } from "shared/components/pagination/Pagination";
 import { AsyncKeyword } from "typescript";
 import IAgentGenericCalls, {
+  CallResponse,
   GameCategoryAgentGenericCalls,
   GameCreationAgentGenericCalls,
+  GameInstanceAgentGenericCalls,
   GameQuestionAgentGenericCalls,
   GameQuestionValueAgentGenericCalls,
 } from "./interfaces";
@@ -171,16 +174,16 @@ const Helper = {
 
 const GameCreation: GameCreationAgentGenericCalls = {
   Items: (params: URLSearchParams) => {
-    return requests.get("GameCreationAPI", params);
+    return requests.get("GameBluePrintAPI", params);
   },
   Item: function (id: string): Promise<AxiosResponse<any, any>> {
-    return requests.get(`GameCreationAPI/${id}`);
+    return requests.get(`GameBluePrintAPI/${id}`);
   },
   Create: function (body: {}): Promise<AxiosResponse<any, any>> {
-    return requests.post("GameCreationAPI", body);
+    return requests.post("GameBluePrintAPI", body);
   },
-  Update: function (data:any): Promise<AxiosResponse<any, any>> {
-    return requests.put(`GameCreationAPI/${data.id}`, data);
+  Update: function (data: any): Promise<AxiosResponse<any, any>> {
+    return requests.put(`GameBluePrintAPI/${data.id}`, data);
   },
   Delete: function (data: { id: string }): Promise<AxiosResponse<any, any>> {
     throw new Error("Function not implemented.");
@@ -256,6 +259,44 @@ const GameCategory: GameCategoryAgentGenericCalls = {
   },
 };
 
+const GameInstances: GameInstanceAgentGenericCalls = {
+  Items: function (params: URLSearchParams): Promise<AxiosResponse<any, any>> {
+    return requests.get("GameInstanceAPI", params);
+  },
+  Item: function (id: string): Promise<AxiosResponse<any, any>> {
+    throw new Error("Function not implemented.");
+  },
+  Create: function (body: {}): Promise<AxiosResponse<any, any>> {
+    throw new Error("Function not implemented.");
+  },
+  Update: function (data: {
+    id: string;
+    body: {};
+  }): Promise<AxiosResponse<any, any>> {
+    throw new Error("Function not implemented.");
+  },
+  Delete: function (data: { id: string }): Promise<AxiosResponse<any, any>> {
+    throw new Error("Function not implemented.");
+  },
+  GetPlayGame: function (
+    id: string
+  ): Promise<AxiosResponse<CallResponse<PlayGameInstanceDTO>, any>> {
+    return requests.get(`GameInstanceAPI/PlayGame/${id}`);
+  },
+  UpdateCurrentTeam: function ({
+    gameInstanceId,
+    currentTeamId,
+  }: {
+    gameInstanceId: string;
+    currentTeamId: string;
+  }): Promise<AxiosResponse<any, any>> {
+    return requests.post("GameInstanceAPI/UpdateCurrentTeam", {
+      gameInstanceId,
+      currentTeamId,
+    });
+  },
+};
+
 const agent = {
   Category,
   AgeGroup,
@@ -266,5 +307,6 @@ const agent = {
   GameQuestionValue,
   GameQuestion,
   GameCategory,
+  GameInstances,
 };
 export default agent;

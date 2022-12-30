@@ -23,7 +23,7 @@ export default function GameCreations({}: IGameCreations) {
   const headers: IHeader[] = [
     { order: 1, name: "title", displayName: "Game Title" },
     {
-      order: 1,
+      order: 2,
       name: "completed",
       displayName: "Completion Percentage",
       renderMethod: (data: any) => {
@@ -77,8 +77,8 @@ export default function GameCreations({}: IGameCreations) {
       view: <ViewGame />,
     },
     displayProps: {
-      displayName: "Game Instances",
-      caption: "All available Game Instances",
+      displayName: "Game Blue Prints",
+      caption: "All available Game Blue Prints",
       cardTitle: "Game Instances",
     },
     headers,

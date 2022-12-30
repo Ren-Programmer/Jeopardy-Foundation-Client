@@ -11,17 +11,24 @@ import AuthenticationContext, {
 } from "Contexts/AuthenticationContext";
 import Login from "components/Account/Login";
 import { getClaims } from "components/Account/useSecurity";
-import { createStandaloneToast } from "@chakra-ui/react";
+import {
+  ChakraProvider,
+  ColorModeScript,
+  createStandaloneToast,
+  extendTheme,
+  withDefaultColorScheme,
+} from "@chakra-ui/react";
+import AppContext from "Contexts/AppContext";
+import PlayGameContext from "Contexts/PlayGameContext";
+import { SetButtonStyles } from "styles/buttonStyles";
 
 function App() {
-  
   const initialClaims: IClaim[] = [
     // {
     //   property: "UserName",
     //   value: "Renaldo Davis",
     // },
   ];
-  
 
   const nClaims = getClaims();
   const [claims, setClaims] = useState<IClaim[]>(nClaims);
@@ -49,8 +56,7 @@ function App() {
 
   return (
     <>
-      <AuthenticationContext.Provider value={value}>             
-        
+      <AuthenticationContext.Provider value={value}>
         <Home />
       </AuthenticationContext.Provider>
     </>

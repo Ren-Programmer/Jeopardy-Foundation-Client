@@ -40,13 +40,13 @@ export default function Modal({
       >
         <ModalOverlay></ModalOverlay>
         <ModalContent>
-          <button
+          {/* <button
             onClick={() => {
               toggleColorMode();
             }}
           >
             dfazdv ad
-          </button>
+          </button> */}
           <CModalHeader>
             <ModalHeader {...modalHeaderProps} />
           </CModalHeader>

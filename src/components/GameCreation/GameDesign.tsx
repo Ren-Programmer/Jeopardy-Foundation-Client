@@ -20,10 +20,6 @@ import useGameCreation from "./useGameCreation";
 
 export interface IGameDesign {}
 export default function GameDesign({}: IGameDesign) {
-  const width = [1, 2, 3, 4, 5];
-  const length = [1, 2, 3, 4, 5];
-  const values = [100, 300, 500, 800, 1000];
-
   const {
     colorMode,
     questionValues,

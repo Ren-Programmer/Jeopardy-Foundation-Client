@@ -1,4 +1,5 @@
 import { Stack, VisuallyHidden } from "@chakra-ui/react";
+import { GamePlayProps } from "components/GameInstance/useGamePlay";
 import { IQuestionValue } from "components/QuestionValue/interfaces/question-values-dtos";
 import GameQuestionValue from "../game-block/GameQuestionValue";
 import { IGameBox } from "../general/GameBox";

@@ -23,7 +23,7 @@ import {
   MenuDivider,
   Tooltip,
 } from "@chakra-ui/react";
-import { FaSun, FaMoon, FaUser, FaRegBuilding, FaHome, FaAdversal } from "react-icons/fa";
+import { FaSun, FaMoon, FaUser, FaRegBuilding, FaHome, FaAdversal,FaGalacticRepublic } from "react-icons/fa";
 import { useContext, useState } from "react";
 import AuthenticationContext from "Contexts/AuthenticationContext";
 import { logOut } from "components/Account/useSecurity";
@@ -88,7 +88,17 @@ export default function Header() {
               icon={<FaAdversal />}
               items={[
                 {
-                  title: "Game Instances",
+                  title: "Game BluePrints",
+                  to: "/game-blueprints",
+                },               
+              ]}
+            />
+             <Menu
+              title="Game"
+              icon={<FaGalacticRepublic />}
+              items={[
+                {
+                  title: "Game",
                   to: "/game-instances",
                 },               
               ]}

@@ -1,4 +1,5 @@
 import { AxiosResponse } from "axios";
+import { PlayGameInstanceDTO } from "components/GameInstance/interfaces/game-instance-dtos";
 
 export default interface IAgentGenericCalls {
   Items: (params: URLSearchParams) => Promise<AxiosResponse<any, any>>;
@@ -9,20 +10,18 @@ export default interface IAgentGenericCalls {
   Select?: (params: URLSearchParams) => Promise<AxiosResponse<any, any>>;
 }
 
-export interface GameCreationAgentGenericCalls extends IAgentGenericCalls {
- 
-}
+export interface GameCreationAgentGenericCalls extends IAgentGenericCalls {}
 
 export interface GameQuestionAgentGenericCalls extends IAgentGenericCalls {
-  GetQuestionsForGame:(id: string) => Promise<AxiosResponse<any, any>>;
+  GetQuestionsForGame: (id: string) => Promise<AxiosResponse<any, any>>;
 }
 
-export interface GameCategoryAgentGenericCalls extends IAgentGenericCalls{
-  GetCategoriesForGame:(id: string) => Promise<AxiosResponse<any, any>>;
+export interface GameCategoryAgentGenericCalls extends IAgentGenericCalls {
+  GetCategoriesForGame: (id: string) => Promise<AxiosResponse<any, any>>;
 }
 
-export interface GameQuestionValueAgentGenericCalls extends IAgentGenericCalls{
-  GetQuestionValuesForGame:(id: string) => Promise<AxiosResponse<any, any>>;
+export interface GameQuestionValueAgentGenericCalls extends IAgentGenericCalls {
+  GetQuestionValuesForGame: (id: string) => Promise<AxiosResponse<any, any>>;
 }
 
 export interface ServerErrorResult {
@@ -46,4 +45,23 @@ export interface BaseSearchParams {
   searchCriteria?: string;
   pageNumber?: number;
   pageSize?: number;
+}
+export interface GameInstanceAgentGenericCalls extends IAgentGenericCalls {
+  GetPlayGame: (
+    id: string
+  ) => Promise<AxiosResponse<CallResponse<PlayGameInstanceDTO>, any>>;
+  UpdateCurrentTeam: ({
+    gameInstanceId,
+    currentTeamId,
+  }: {
+    gameInstanceId: string;
+    currentTeamId: string;
+  }) => Promise<AxiosResponse<any, any>>;
+}
+
+export interface CallResponse<T> {
+  errorMessages: any;
+  isSuccess: boolean;
+  result: T;
+  statusCode: number;
 }
